@@ -11,11 +11,6 @@ public:
 };
 
 class PerformanceVariableLog {
-private:
-  int last_log;
-  std::vector<float> recent_log;
-  std::map<int,vector> history_log;
-public:
   
 };
 
@@ -23,9 +18,9 @@ public:
 class ControlVariable
 {
 private:
-  string name_;
-  VariableValue value_;
-  int increment_;
+  string name;
+  VariableValue value;
+  int increment;
 public:
   virtual void setControlVariable(VariableValue);
   virtual VariableValue getControlVariable();
@@ -35,10 +30,11 @@ public:
 class PerformanceVariable
 {
 private:
-  string name_;
-  PerformanceVariableLog log_;
+  string name;
+  PerformanceVariableLog log;
 public:
+  virtual logPerformanceValue();
   virtual PerformanceVariableLog getPerformanceVariableLog();
-  virtual void logPerformanceValue(VariableValue);
+  virtual void registerValue(VariableValue);
   virtual void saveLog();
 };

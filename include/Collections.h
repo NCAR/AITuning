@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <string>
 
 #include "Variables.h"
 
@@ -16,15 +17,43 @@ class CollectionCreator
 class CollectionPerformanceVar
 {
  private:
+
+  string transport_layer;
+  string version;
   std::vector<PerformanceVariable> performanceVarsList;
- public:
-  void addPerformanceVariable(PerformanceVariable var);
+
+public:
+
+  CollectionPerformanceVar(string name, string ver)
+  {
+    transport_layer = name;
+    version = ver;
+  }
+  
+  void addPerformanceVariable(PerformanceVariable var)
+  {
+    performanceVarsList.push_back(var);
+  }
 }
 
 class CollectionControlVar
 {
  private:
+
+  string transport_layer;
+  string version;
   std::vector<ControlVariable> controlVarsList;
+  
  public:
-  void addControlVariable(ControlVariable var);
+
+  CollectionControlVar(string name, string ver)
+  {
+    transport_layer = name;
+    version = ver;
+  }
+  
+  void addControlVariable(ControlVariable var)
+  {
+    controlVarsList.push_back(var);
+  }
 }
