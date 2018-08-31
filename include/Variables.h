@@ -10,18 +10,20 @@ using namespace std;
 
 class VariableValue {
 private:
-  int value_;
+  double value_;
 public:
   VariableValue(){;}
-  VariableValue(int v)
+  VariableValue(double v)
   {
     setValue(v);
   }
-  void setValue(int val)
+
+  void setValue(double val)
   {
     value_ = val;
   }
-  int getValue()
+  
+  double getValue()
   {
     return value_;
   }
@@ -30,11 +32,11 @@ public:
 class PerformanceVariableLog {
 private:
   int last_log_;
-  std::vector<int> recent_log_;
-  std::map<int,std::vector<int>> history_log_;
+  std::vector<double> recent_log_;
+  std::map<int,std::vector<double>> history_log_;
 public:
   PerformanceVariableLog(){last_log_ = 0;}
-  void logValue(int val)
+  void logValue(double val)
   {
     recent_log_.push_back(val);
   }
