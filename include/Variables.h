@@ -8,27 +8,6 @@ using namespace std;
 #ifndef VARIABLES_H
 #define VARIABLES_H
 
-class VariableValue {
-private:
-  double value_;
-public:
-  VariableValue(){;}
-  VariableValue(double v)
-  {
-    setValue(v);
-  }
-
-  void setValue(double val)
-  {
-    value_ = val;
-  }
-  
-  double getValue()
-  {
-    return value_;
-  }
-};
-
 class PerformanceVariableLog {
 private:
   int last_log_;
@@ -47,15 +26,16 @@ public:
 };
 
 // Abstract class
+template <class Value>
 class ControlVariable
 {
 private:
   string name_;
-  VariableValue value_;
+  Value value_;
   int increment_;
 public:
-  virtual void setControlVariable(VariableValue);
-  virtual VariableValue getControlVariable();
+  virtual void setControlVariable(Value);
+  virtual Value getControlVariable();
 };
 
 // Abstract class
@@ -66,7 +46,7 @@ protected:
   PerformanceVariableLog log_;
 public:
   virtual PerformanceVariableLog getPerformanceVariableLog() = 0;
-  virtual void logPerformanceValue(VariableValue val) = 0;
+  virtual void logPerformanceValue(double val) = 0;
   virtual void saveLog() = 0;
 };
 

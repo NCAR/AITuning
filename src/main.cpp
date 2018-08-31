@@ -16,9 +16,9 @@ public:
     return log_;
   }
  
-  void logPerformanceValue(VariableValue val)
+  void logPerformanceValue(double val)
   {
-    log_.logValue(val.getValue());
+    log_.logValue(val);
   }
 
   void saveLog()
@@ -31,8 +31,7 @@ public:
 int main(void)
 {
   UDPerformanceVariable total_time("Time");
-  VariableValue v;
-  v.setValue(10);
+  double v = 10.0;
   total_time.logPerformanceValue(v);
   PerformanceVariableLog log = total_time.getPerformanceVariableLog();
   log.printLastLog();

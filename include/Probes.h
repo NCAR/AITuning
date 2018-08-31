@@ -13,7 +13,7 @@ protected:
   string name_;
   PerformanceVariable *perf_var_;
 public:
-  virtual void registerValue(VariableValue val);
+  virtual void registerValue(double val);
 };
   
 class SingleProbe : public Probes
@@ -23,6 +23,10 @@ public:
   {
     name_ = name;
     perf_var_ = perf_var;
+  }
+  void registerValue(double val)
+  {
+    perf_var_->logPerformanceValue(val);
   }
   
 };
