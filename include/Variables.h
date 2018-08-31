@@ -1,22 +1,47 @@
 #include <iostream>
 #include <string>
+#include <vector>
+#include <map>
+
 using namespace std;
+
+#ifndef VARIABLES_H
+#define VARIABLES_H
 
 class VariableValue {
 private:
-  int value;
+  int value_;
 public:
-  void setValue(int val);
-  int getValue();
+  VariableValue(){;}
+  VariableValue(int v)
+  {
+    setValue(v);
+  }
+  void setValue(int val)
+  {
+    value_ = val;
+  }
+  int getValue()
+  {
+    return value_;
+  }
 };
 
 class PerformanceVariableLog {
 private:
-  int last_log;
-  std::vector<float> recent_log;
-  std::map<int,vector> history_log;
+  int last_log_;
+  std::vector<int> recent_log_;
+  std::map<int,std::vector<int>> history_log_;
 public:
-  
+  PerformanceVariableLog(){last_log_ = 0;}
+  void logValue(int val)
+  {
+    recent_log_.push_back(val);
+  }
+  void printLastLog()
+  {
+    cout << recent_log_.back() << endl;
+  }
 };
 
 // Abstract class
@@ -34,11 +59,13 @@ public:
 // Abstract class
 class PerformanceVariable
 {
-private:
+protected:
   string name_;
   PerformanceVariableLog log_;
 public:
-  virtual PerformanceVariableLog getPerformanceVariableLog();
-  virtual void logPerformanceValue(VariableValue);
-  virtual void saveLog();
+  virtual PerformanceVariableLog getPerformanceVariableLog() = 0;
+  virtual void logPerformanceValue(VariableValue val) = 0;
+  virtual void saveLog() = 0;
 };
+
+#endif
