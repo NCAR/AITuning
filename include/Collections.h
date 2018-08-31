@@ -6,6 +6,9 @@
 
 using namespace std;
 
+#ifndef COLLECTIONS_H
+#define COLLECTIONS_H
+
 // Abstract class
 class CollectionCreator
 {
@@ -57,3 +60,4 @@ class CollectionControlVar
     controlVarsList.push_back(var);
   }
 }
+#endif

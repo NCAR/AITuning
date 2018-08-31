@@ -29,13 +29,17 @@ public:
 template <class Value>
 class ControlVariable
 {
-private:
+protected:
   string name_;
   Value value_;
   int increment_;
 public:
-  virtual void setControlVariable(Value);
-  virtual Value getControlVariable();
+  ControlVariable(){;}
+  virtual void setControlVariable(Value) = 0;
+  virtual Value getControlVariable() = 0;
+  virtual void setIncrement(int) = 0;
+  virtual void incrementVar() = 0;
+  virtual void printVar() = 0;
 };
 
 // Abstract class
