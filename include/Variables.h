@@ -33,12 +33,10 @@ class ControlVariable
 protected:
   string name_;
   Value value_;
-  int increment_;
 public:
   ControlVariable(){;}
   virtual void setValue(Value) = 0;
   virtual Value getValue() = 0;
-  virtual void setIncrement(Value) = 0;
   virtual void incrementVar() = 0;
   virtual void printVar() = 0;
 };

@@ -16,7 +16,11 @@ int main(void)
 
   MPICHIntControlVariable eager_limit("MPIR_CVAR_CH3_EAGER_MAX_MSG_SIZE", 128, &mpi_t_manager);
 
-  eager_limit.printVar();
+  MPICHBoolControlVariable async_progress("MPIR_CVAR_ASYNC_PROGRESS", &mpi_t_manager);
+
+  async_progress.printVar();
+  async_progress.incrementVar();
+  async_progress.printVar();
   
   return 0;
 }

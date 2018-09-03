@@ -42,4 +42,22 @@ public:
   void incrementVar();
   void printVar();
 };
+
+class MPICHBoolControlVariable : public ControlVariable<int>
+{
+private:
+  string name_;
+  int index_;
+  int value_; //Read from MPI_T
+  MPI_Datatype dt_;
+  MPI_T_Manager *mpi_t_manager_ = NULL;
+  MPI_T_cvar_handle c_handle;
+public:
+  MPICHBoolControlVariable(string name, MPI_T_Manager *mpi_t_manager);
+  int getValue();
+  void setValue(int val);
+  void incrementVar();
+  void printVar();
+};
+
 #endif

@@ -1,29 +1,20 @@
 #include <iostream>
 #include <vector>
-
 #include "Variables.h"
-#include "Collections.h"
-#include "Utility.h"
+#include "MPICH/Collections_3_2_1.h"
 
 using namespace std;
 
-class CollectionCreatorMPICH : public CollectionCreator
+CollectionPerformanceVar CollectionCreatorMPICH::createCollectionPerformanceVar()
 {
-public:
-
-  CollectionPerformanceVar createCollectionPerformanceVar()
-  {
-    CollectionPerformanceVar perf_collection("MPICH","3.2.1");
-    
-    
-    return perf_collection;
-  }
+  CollectionPerformanceVar perf_collection("MPICH","3.2.1");
   
-  CollectionControlVal createCollectionControlVar()
-  {
-    CollectionControlVar control_collection("MPICH","3.2.1");
-    
-    return control_collection;
-  }
+  return perf_collection;
+}
   
+CollectionControlVal CollectionCreatorMPICH::createCollectionControlVar()
+{
+  CollectionControlVar control_collection("MPICH","3.2.1");
+  
+  return control_collection;
 }
