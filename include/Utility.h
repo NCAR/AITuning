@@ -6,8 +6,10 @@
 
 using namespace std;
 
-#ifndef COLLECTIONS_H
-#define COLLECTIONS_H
+#ifndef UTILITY_H
+#define UTILITY_H
+
+
 
 // Abstract class
 class CollectionCreator

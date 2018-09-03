@@ -13,7 +13,8 @@ private:
   int last_log_;
   std::vector<double> recent_log_;
   std::map<int,std::vector<double>> history_log_;
-public:
+
+ public:
   PerformanceVariableLog(){last_log_ = 0;}
   void logValue(double val)
   {
@@ -49,6 +50,9 @@ protected:
   string name_;
   PerformanceVariableLog log_;
 public:
+  string getName(){
+    return name_;
+  }
   virtual PerformanceVariableLog getPerformanceVariableLog() = 0;
   virtual void logPerformanceValue(double val) = 0;
   virtual void saveLog() = 0;
