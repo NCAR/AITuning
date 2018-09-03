@@ -24,7 +24,7 @@ public:
   void saveLog();
 };
 
-class ControlVariableMPICHInt : public ControlVariable<int>
+class MPICHIntControlVariable : public ControlVariable<int>
 {
 private:
   string name_;

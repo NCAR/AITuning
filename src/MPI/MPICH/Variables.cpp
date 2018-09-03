@@ -27,7 +27,7 @@ void PerformanceVariableMPICH::saveLog(){
   ;
 }
 
-ControlVariableMPICHInt::ControlVariableMPICHInt(string name, int inc, MPI_T_Manager *mpi_t_manager)
+MPICHIntControlVariable::MPICHIntControlVariable(string name, int inc, MPI_T_Manager *mpi_t_manager)
 {
   int err;
   name_ = name;
@@ -39,12 +39,12 @@ ControlVariableMPICHInt::ControlVariableMPICHInt(string name, int inc, MPI_T_Man
   value_ = mpi_t_manager_->getControlVar<int>(c_handle);
 }
 
-int ControlVariableMPICHInt::getValue()
+int MPICHIntControlVariable::getValue()
 {
   return value_;
 }
 
-void ControlVariableMPICHInt::setValue(int val)
+void MPICHIntControlVariable::setValue(int val)
 {
   mpi_t_manager_->setControlVar<int>(c_handle, val);
   value_ = mpi_t_manager_->getControlVar<int>(c_handle);
@@ -52,19 +52,19 @@ void ControlVariableMPICHInt::setValue(int val)
     perror("Set on control variable unsuccessful");
 }
 
-void ControlVariableMPICHInt::setIncrement(int inc)
+void MPICHIntControlVariable::setIncrement(int inc)
 {
   increment_ = inc;
 }
 
-void ControlVariableMPICHInt::incrementVar()
+void MPICHIntControlVariable::incrementVar()
 {
   int new_val;
   new_val = value_ + increment_;
   setValue(new_val);
 }
 
-void ControlVariableMPICHInt::printVar()
+void MPICHIntControlVariable::printVar()
 {
   printf("%s: %d\n",name_.c_str(),value_);
 }

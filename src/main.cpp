@@ -14,7 +14,7 @@ int main(void)
   mpi_t_manager.initialize_MPI_T();
   MPI_Init_thread(NULL,NULL,MPI_THREAD_FUNNELED,&provided);
 
-  ControlVariableMPICHInt eager_limit("MPIR_CVAR_CH3_EAGER_MAX_MSG_SIZE", 128, &mpi_t_manager);
+  MPICHIntControlVariable eager_limit("MPIR_CVAR_CH3_EAGER_MAX_MSG_SIZE", 128, &mpi_t_manager);
 
   eager_limit.printVar();
   
