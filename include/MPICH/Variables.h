@@ -35,7 +35,7 @@ private:
   MPI_T_Manager *mpi_t_manager_ = NULL;
   MPI_T_cvar_handle c_handle;
 public:
-  ControlVariableMPICHInt(string name, int inc, MPI_T_Manager *mpi_t_manager);
+  MPICHIntControlVariable(string name, int inc, MPI_T_Manager *mpi_t_manager);
   int getValue();
   void setValue(int val);
   void setIncrement(int inc);
