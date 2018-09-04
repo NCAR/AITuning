@@ -1,30 +1,11 @@
 #include <iostream>
 #include <string>
-#include <vector>
-#include <map>
+#include <Serializable_Log.hpp>
 
 using namespace std;
 
 #ifndef VARIABLES_H
 #define VARIABLES_H
-
-class PerformanceVariableLog {
-private:
-  int last_log_;
-  std::vector<double> recent_log_;
-  std::map<int,std::vector<double>> history_log_;
-
- public:
-  PerformanceVariableLog(){last_log_ = 0;}
-  void logValue(double val)
-  {
-    recent_log_.push_back(val);
-  }
-  void printLastLog()
-  {
-    cout << recent_log_.back() << endl;
-  }
-};
 
 // Abstract class
 template <class Value>
@@ -41,19 +22,47 @@ public:
   virtual void printVar() = 0;
 };
 
-// Abstract class
 class PerformanceVariable
 {
 protected:
   string name_;
-  PerformanceVariableLog log_;
+  PerformanceVariableLog *log_;
 public:
+
+  PerformanceVariable(string name){
+    name_ = name;
+    log_ = new PerformanceVariableLog(name);
+  }
+  
   string getName(){
     return name_;
   }
-  virtual PerformanceVariableLog getPerformanceVariableLog() = 0;
-  virtual void logPerformanceValue(double val) = 0;
-  virtual void saveLog() = 0;
+
+  PerformanceVariableLog *getPerformanceVariableLog()
+  {
+    return log_;
+  }
+  
+  void logPerformanceValue(double val)
+  {
+    log_->logValue(val);
+  }
+  
+  void saveLog()
+  {
+    log_->saveHistory();
+  }
+
+  void loadLog()
+  {
+    log_->loadHistory();
+  }
+};
+
+class UserDefinedPerformanceVariable : public PerformanceVariable
+{
+public:
+  UserDefinedControlVariable(string filename);
 };
 
 #endif

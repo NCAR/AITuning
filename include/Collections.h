@@ -23,7 +23,7 @@ class CollectionPerformanceVar
 
   string transport_layer_;
   string version_;
-  std::vector<PerformanceVariable> performanceVarsList_;
+  std::vector<PerformanceVariable *> performanceVarsList_;
 
 public:
 
@@ -33,7 +33,7 @@ public:
     version_ = ver;
   }
   
-  void addPerformanceVariable(PerformanceVariable var)
+  void addPerformanceVariable(PerformanceVariable *var)
   {
     performanceVarsList_.push_back(var);
   }
@@ -45,7 +45,7 @@ class CollectionControlVar
 
   string transport_layer_;
   string version_;
-  std::vector<ControlVariable> controlVarsList_;
+  std::vector<ControlVariable *> controlVarsList_;
   
  public:
 
@@ -55,7 +55,7 @@ class CollectionControlVar
     version_ = ver;
   }
   
-  void addControlVariable(ControlVariable var)
+  void addControlVariable(ControlVariable *var)
   {
     controlVarsList_.push_back(var);
   }

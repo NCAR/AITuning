@@ -17,16 +17,6 @@ PerformanceVariableMPICH::PerformanceVariableMPICH(string name, int var_class, M
     perror ("Error in PerformanceVariable Contructor");
 }
 
-PerformanceVariableLog PerformanceVariableMPICH::getPerformanceVariableLog(){;}
-
-void PerformanceVariableMPICH::logPerformanceValue(double val){
-  log_.logValue(val);
-}
-
-void PerformanceVariableMPICH::saveLog(){
-  ;
-}
-
 MPICHIntControlVariable::MPICHIntControlVariable(string name, int inc, MPI_T_Manager *mpi_t_manager)
 {
   int err;

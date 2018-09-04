@@ -7,7 +7,7 @@
 using namespace std;
 
 // Abstract class
-class Probes
+class Probe
 {
 protected:
   string name_;
@@ -16,7 +16,7 @@ public:
   virtual void registerValue(double val);
 };
   
-class SingleProbe : public Probes
+class SingleProbe : public Probe
 {
 public:
   SingleProbe(string name, PerformanceVariable *perf_var)
@@ -28,5 +28,4 @@ public:
   {
     perf_var_->logPerformanceValue(val);
   }
-  
 };

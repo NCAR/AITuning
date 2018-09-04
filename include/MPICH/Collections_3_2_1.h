@@ -1,7 +1,6 @@
 #include <iostream>
 #include <vector>
 #include <string>
-
 #include "Variables.h"
 #include "Collections.h"
 #include "MPICH/Variables.h"
@@ -16,29 +15,12 @@ class CollectionCreatorMPICH : public CollectionCreator
 {
 private:
   MPI_T_Manager mpi_t_manager;
+  CollectionControlVar *control_vars;
+  CollectionPerformanceVar *performance_vars;
 public:
-  CollectionCreatorMPICH()
-  {
-    mpi_t_manager.initialize_MPI_T();
-  }
-  
-  CollectionPerformanceVar createCollectionPerformanceVar()
-  {
-    CollectionPerformanceVar perf_collection("MPICH","3.2.1");
-    
-    return perf_collection;
-  }
-  
-  CollectionControlVal createCollectionControlVar()
-  {
-    CollectionControlVar control_collection("MPICH","3.2.1");
-
-    
-    control_collection.addControlVariable();
-  
-    return control_collection;
-  }
-  
+  CollectionCreatorMPICH();
+  CollectionPerformanceVar *createCollectionPerformanceVar(){;}  
+  CollectionControlVal *createCollectionControlVar(){;}
 };
 
 #endif
