@@ -10,6 +10,7 @@ CXX = mpic++
 MPICXX = mpic++
 # define any compile-time flags
 CFLAGS = -Wall -g
+LDFLAGS = -lstdc++
 
 # define any directories containing header files other than /usr/include
 #
@@ -31,10 +32,9 @@ SRCS = main.cpp ./MPI/MPI_T_Obj.cpp ./MPI/MPICH/Variables.cpp
 # Below we are replacing the suffix .c of all words in the macro SRCS
 # with the .o suffix
 #
-OBJS = $(SRCS:.cpp=.o)
 
 # define the executable file 
-MAIN = test
+MAIN = main
 
 #
 # The following part of the makefile is generic; it can be used to 
@@ -46,15 +46,8 @@ MAIN = test
 
 all:    $(MAIN)
 
-$(MAIN): $(OBJS) 
-	$(CXX) $(CFLAGS) $(INCLUDES) -o $(MAIN) $(OBJS) $(LFLAGS) $(LIBS)
-
-# this is a suffix replacement rule for building .o's from .c's
-# it uses automatic variables $<: the name of the prerequisite of
-# the rule(a .c file) and $@: the name of the target of the rule (a .o file) 
-# (see the gnu make manual section about automatic variables)
-.cpp.o:
-	$(CXX) $(CFLAGS) $(INCLUDES) -c $<  -o $@
+$(MAIN): $(SRCS)
+	$(CXX) $(CFLAGS) $(INCLUDES) $? -o $@ $(OBJS) $(LFLAGS) $(LIBS)
 
 clean:
 	$(RM) *.o *~ $(MAIN)
