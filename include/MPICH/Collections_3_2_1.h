@@ -1,7 +1,6 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include "Variables.h"
 #include "Collections.h"
 #include "MPICH/Variables.h"
 #include "MPI_T_Obj.h"

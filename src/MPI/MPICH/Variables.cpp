@@ -26,7 +26,7 @@ MPICHIntControlVariable::MPICHIntControlVariable(string name, int inc, MPI_T_Man
   c_handle = mpi_t_manager_->getControlHandle(name_, &index_);
   if(err != MPI_SUCCESS)
     perror ("Error in ControlVariable Contructor");
-  value_ = mpi_t_manager_->getControlVar<int>(c_handle);
+  value_ = mpi_t_manager_->getControlVar(c_handle);
 }
 
 int MPICHIntControlVariable::getValue()
@@ -36,8 +36,8 @@ int MPICHIntControlVariable::getValue()
 
 void MPICHIntControlVariable::setValue(int val)
 {
-  mpi_t_manager_->setControlVar<int>(c_handle, val);
-  value_ = mpi_t_manager_->getControlVar<int>(c_handle);
+  mpi_t_manager_->setControlVar(c_handle, val);
+  value_ = mpi_t_manager_->getControlVar(c_handle);
   if (value_ != val)
     perror("Set on control variable unsuccessful");
 }
@@ -67,7 +67,7 @@ MPICHBoolControlVariable::MPICHBoolControlVariable(string name, MPI_T_Manager *m
   c_handle = mpi_t_manager_->getControlHandle(name_, &index_);
   if(err != MPI_SUCCESS)
     perror ("Error in ControlVariable Contructor");
-  value_ = mpi_t_manager_->getControlVar<int>(c_handle);
+  value_ = mpi_t_manager_->getControlVar(c_handle);
 }
 
 int MPICHBoolControlVariable::getValue()
@@ -77,8 +77,8 @@ int MPICHBoolControlVariable::getValue()
 
 void MPICHBoolControlVariable::setValue(int val)
 {  
-  mpi_t_manager_->setControlVar<int>(c_handle, val == 0 ? 0 : 1);
-  value_ = mpi_t_manager_->getControlVar<int>(c_handle);
+  mpi_t_manager_->setControlVar(c_handle, val == 0 ? 0 : 1);
+  value_ = mpi_t_manager_->getControlVar(c_handle);
   if (value_ != val)
     perror("Set on control variable unsuccessful");
 }

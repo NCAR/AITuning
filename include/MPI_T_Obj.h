@@ -18,11 +18,10 @@ public:
 
   void onOffControlVar(MPI_T_cvar_handle c_handle, int onOff);
 
-  template <class T>
-  T getControlVar(MPI_T_cvar_handle c_handle)
+  int getControlVar(MPI_T_cvar_handle c_handle)
   {
     int err = -1;
-    T val;
+    int val;
     
     err = MPI_T_cvar_read(c_handle, &val);
     if(err != MPI_SUCCESS)
@@ -31,15 +30,13 @@ public:
     return val;
   }
 
-  template <class T>
-  void setControlVar(MPI_T_cvar_handle c_handle, T val)
+  void setControlVar(MPI_T_cvar_handle c_handle, int val)
   {
     int err = -1;
 
     err = MPI_T_cvar_write(c_handle, &val);
     if(err != MPI_SUCCESS)
       perror ("Error during cvar write with value");
-  }
-  
+  }  
 };
 #endif
