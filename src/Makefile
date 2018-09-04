@@ -22,7 +22,7 @@ INCLUDES = -I../include
 LIBS = -lstdc++
 
 # define the C source files
-SRCS = main.cpp ./MPI/MPI_T_Obj.cpp ./MPI/MPICH/Variables.cpp
+SRCS = main.cpp ./MPI/*.cpp ./MPI/MPICH/*.cpp
 
 # define the C object files 
 #
