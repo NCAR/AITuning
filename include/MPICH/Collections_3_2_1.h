@@ -15,12 +15,12 @@ class CollectionCreatorMPICH : public CollectionCreator
 {
 private:
   MPI_T_Manager mpi_t_manager;
-  CollectionControlVar *control_vars;
-  CollectionPerformanceVar *performance_vars;
+  CollectionControlVar *control_vars_;
+  CollectionPerformanceVar *performance_vars_;
 public:
   CollectionCreatorMPICH();
-  CollectionPerformanceVar *createCollectionPerformanceVar(){;}  
-  CollectionControlVal *createCollectionControlVar(){;}
+  CollectionPerformanceVar *createCollectionPerformanceVar();
+  CollectionControlVar *createCollectionControlVar();
 };
 
 #endif

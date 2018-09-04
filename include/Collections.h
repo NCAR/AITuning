@@ -9,21 +9,13 @@ using namespace std;
 #ifndef COLLECTIONS_H
 #define COLLECTIONS_H
 
-// Abstract class
-class CollectionCreator
-{
- public:
-  virtual CollectionPerformanceVar createCollectionPerformanceVar();
-  virtual CollectionControlVar createCollectionControlVar();
-}
-
 class CollectionPerformanceVar
 {
  private:
 
   string transport_layer_;
   string version_;
-  std::vector<PerformanceVariable *> performanceVarsList_;
+  std::vector<PerformanceVariable*> performanceVarsList_;
 
 public:
 
@@ -37,7 +29,7 @@ public:
   {
     performanceVarsList_.push_back(var);
   }
-}
+};
 
 class CollectionControlVar
 {
@@ -45,7 +37,7 @@ class CollectionControlVar
 
   string transport_layer_;
   string version_;
-  std::vector<ControlVariable *> controlVarsList_;
+  std::vector<ControlVariable*> controlVarsList_;
   
  public:
 
@@ -59,5 +51,14 @@ class CollectionControlVar
   {
     controlVarsList_.push_back(var);
   }
-}
+};
+
+// Abstract class
+class CollectionCreator
+{
+ public:
+  virtual CollectionPerformanceVar *createCollectionPerformanceVar() = 0;
+  virtual CollectionControlVar *createCollectionControlVar() = 0;
+};
+
 #endif

@@ -8,19 +8,19 @@ using namespace std;
 #define VARIABLES_H
 
 // Abstract class
-template <class Value>
 class ControlVariable
 {
 protected:
   string name_;
-  Value value_;
+  int value_;
 public:
   ControlVariable(){;}
-  virtual void setValue(Value) = 0;
-  virtual Value getValue() = 0;
+  virtual void setValue(int) = 0;
+  virtual int getValue() = 0;
   virtual void incrementVar() = 0;
   virtual void printVar() = 0;
 };
+
 
 class PerformanceVariable
 {
@@ -29,9 +29,10 @@ protected:
   PerformanceVariableLog *log_;
 public:
 
-  PerformanceVariable(string name){
-    name_ = name;
-    log_ = new PerformanceVariableLog(name);
+  PerformanceVariable(){
+    ;
+    // name_ = name;
+    // log_ = new PerformanceVariableLog(name);
   }
   
   string getName(){
@@ -62,7 +63,7 @@ public:
 class UserDefinedPerformanceVariable : public PerformanceVariable
 {
 public:
-  UserDefinedControlVariable(string filename);
+  UserDefinedPerformanceVariable(string filename);
 };
 
 #endif

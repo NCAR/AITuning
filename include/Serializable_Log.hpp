@@ -15,13 +15,11 @@ using namespace std;
 
 class PerformanceVariableLog {
 private:
-
-  friend class boost::serialization::access;
   string filename_;
   int last_log_;
   std::vector<double> recent_log_;
   std::vector<std::vector<double>> history_log_;
-  
+    
 public:
   
   PerformanceVariableLog(string filename)
@@ -42,17 +40,18 @@ public:
 
   void saveHistory()
   {
-    std::ofstream ofs( filename_ );
-    boost::archive::text_oarchive ar(ofs);
-    history_log_.push_back(recent_log_);
-    history_log_ & ar;
+    // std::ofstream ofs( filename_ );
+    // boost::archive::text_oarchive ar(ofs);
+    // history_log_.push_back(recent_log_);
+    // history_log_ & ar;
+    ;
   }
 
   void loadHistory()
   {
-    std::ifstream ifs( filename_ );
-    boost::archive::text_iarchive ar( ifs );
-    ar & history_log_;
+    // std::ifstream ifs( filename_ );
+    // boost::archive::text_iarchive ar( ifs );
+    // ar & history_log_;
     
     last_log_ = history_log_.size() - 1;
     recent_log_ = history_log_.back();

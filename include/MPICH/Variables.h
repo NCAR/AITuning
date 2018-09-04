@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include "../Variables.h"
-#include "../MPI_T_Obj.h"
+#include "MPI_T_Obj.h"
 #include "mpi.h"
 
 using namespace std;
@@ -24,7 +24,7 @@ public:
   void saveLog();
 };
 
-class MPICHIntControlVariable : public ControlVariable<int>
+class MPICHIntControlVariable : public ControlVariable
 {
 private:
   string name_;
@@ -43,7 +43,7 @@ public:
   void printVar();
 };
 
-class MPICHBoolControlVariable : public ControlVariable<int>
+class MPICHBoolControlVariable : public ControlVariable
 {
 private:
   string name_;

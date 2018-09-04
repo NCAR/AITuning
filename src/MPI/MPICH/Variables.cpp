@@ -8,7 +8,7 @@ using namespace std;
 
 PerformanceVariableMPICH::PerformanceVariableMPICH(string name, int var_class, MPI_T_Manager *mpi_t_manager)
 {
-  int err;
+  int err=-1;
   name_ = name;
   mpi_t_manager_ = mpi_t_manager;
   var_class_ = var_class;
@@ -19,7 +19,7 @@ PerformanceVariableMPICH::PerformanceVariableMPICH(string name, int var_class, M
 
 MPICHIntControlVariable::MPICHIntControlVariable(string name, int inc, MPI_T_Manager *mpi_t_manager)
 {
-  int err;
+  int err=-1;
   name_ = name;
   increment_ = inc;
   mpi_t_manager_ = mpi_t_manager;
@@ -49,7 +49,7 @@ void MPICHIntControlVariable::setIncrement(int inc)
 
 void MPICHIntControlVariable::incrementVar()
 {
-  int new_val;
+  int new_val = -1;
   new_val = value_ + increment_;
   setValue(new_val);
 }
@@ -61,7 +61,7 @@ void MPICHIntControlVariable::printVar()
 
 MPICHBoolControlVariable::MPICHBoolControlVariable(string name, MPI_T_Manager *mpi_t_manager)
 {
-  int err;
+  int err=-1;
   name_ = name;
   mpi_t_manager_ = mpi_t_manager;
   c_handle = mpi_t_manager_->getControlHandle(name_, &index_);
