@@ -19,7 +19,7 @@ PerformanceVariableMPICH::PerformanceVariableMPICH(string name, int var_class, M
 
 MPICHIntControlVariable::MPICHIntControlVariable(string name, int inc, MPI_T_Manager *mpi_t_manager)
 {
-  int err=-1;
+  int err=0;
   name_ = name;
   increment_ = inc;
   mpi_t_manager_ = mpi_t_manager;
@@ -61,11 +61,10 @@ void MPICHIntControlVariable::printVar()
 
 MPICHBoolControlVariable::MPICHBoolControlVariable(string name, MPI_T_Manager *mpi_t_manager)
 {
-  int err=-1;
   name_ = name;
   mpi_t_manager_ = mpi_t_manager;
   c_handle = mpi_t_manager_->getControlHandle(name_, &index_);
-  if(err != MPI_SUCCESS)
+  if(c_handle == NULL)
     perror ("Error in ControlVariable Contructor");
   value_ = mpi_t_manager_->getControlVar(c_handle);
 }

@@ -25,7 +25,12 @@ int main(void)
   
   MPI_Init_thread(NULL,NULL,MPI_THREAD_FUNNELED,&provided);
 
-  
+  UserDefinedPerformanceVar ud_perf_var("Total_time","myfile.txt");
+  SingleProbe probe_time("Total_time", &ud_perf_var);
+
+  probe_time.registerValue(100.0);
+  probe_time.registerValue(140.0);
+  printf("%lf\n",ud_perf_var.getLastValue());
 
   return 0;
 }

@@ -38,6 +38,11 @@ public:
     cout << recent_log_.back() << endl;
   }
 
+  double getLastLog()
+  {
+    return recent_log_.back();
+  }
+
   void saveHistory()
   {
     // std::ofstream ofs( filename_ );

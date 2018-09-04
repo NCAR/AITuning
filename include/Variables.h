@@ -21,22 +21,20 @@ public:
   virtual void printVar() = 0;
 };
 
-
 class PerformanceVariable
 {
 protected:
   string name_;
   PerformanceVariableLog *log_;
 public:
-
-  PerformanceVariable(){
-    ;
-    // name_ = name;
-    // log_ = new PerformanceVariableLog(name);
-  }
   
   string getName(){
     return name_;
+  }
+
+  double getLastValue()
+  {
+    return log_->getLastLog();
   }
 
   PerformanceVariableLog *getPerformanceVariableLog()
@@ -60,10 +58,13 @@ public:
   }
 };
 
-class UserDefinedPerformanceVariable : public PerformanceVariable
+class UserDefinedPerformanceVar : public PerformanceVariable
 {
 public:
-  UserDefinedPerformanceVariable(string filename);
+  UserDefinedPerformanceVar(string name, string filename){
+    name_ = name;
+    log_ = new PerformanceVariableLog(filename);
+  }
 };
 
 #endif
