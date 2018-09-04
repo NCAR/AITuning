@@ -14,7 +14,7 @@ extern "C"
 {
   struct probe_wrapper
   {
-    Probe real_probe;
+    Probe *real_probe;
   };
   
   void AITuning_init(layer l)
