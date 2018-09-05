@@ -14,7 +14,7 @@ LDFLAGS = -lstdc++
 
 # define any directories containing header files other than /usr/include
 #
-INCLUDES = -I../include
+INCLUDES = $(shell for incpath in `find ../include -type d`; do echo -I$${incpath}; done)
 
 # define any libraries to link into executable:
 #   if I want to link in libraries (libx.so or libx.a) I use the -llibname 
@@ -22,7 +22,7 @@ INCLUDES = -I../include
 LIBS = -lstdc++
 
 # define the C source files
-SRCS = main.cpp ./MPI/*.cpp ./MPI/MPICH/*.cpp
+SRCS = $(wildcard main.cpp ./MPI/*.cpp ./MPI/MPICH/*.cpp)
 
 # define the C object files 
 #
@@ -32,6 +32,7 @@ SRCS = main.cpp ./MPI/*.cpp ./MPI/MPICH/*.cpp
 # Below we are replacing the suffix .c of all words in the macro SRCS
 # with the .o suffix
 #
+OBJS = $(SRCS:.cpp=.o)
 
 # define the executable file 
 MAIN = main
@@ -41,18 +42,15 @@ MAIN = main
 # build any executable just by changing the definitions above and by
 # deleting dependencies appended to the file from 'make depend'
 #
-
 .PHONY: depend clean
 
 all:    $(MAIN)
 
-$(MAIN): $(SRCS)
+%.o: %.cpp
+	$(CXX) $(CFLAGS) $(INCLUDES) -c $? -o $@
+
+$(MAIN): $(OBJS)
 	$(CXX) $(CFLAGS) $(INCLUDES) $? -o $@ $(OBJS) $(LFLAGS) $(LIBS)
 
 clean:
-	$(RM) *.o *~ $(MAIN)
-
-depend: $(SRCS)
-	makedepend $(INCLUDES) $^
-
-# DO NOT DELETE THIS LINE -- make depend needs it
+	-$(RM) $(OBJS) *~ $(MAIN)
