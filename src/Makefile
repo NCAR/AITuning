@@ -25,7 +25,7 @@ INCLUDES = $(wildcard $(shell for incpath in $(INCDIRS); do echo $${incpath}/*.h
 LIBS = -lstdc++
 
 # define the C source files
-SRCS = $(wildcard main.cpp ./MPI/*.cpp ./MPI/MPICH/*.cpp)
+SRCS = $(wildcard *.cpp ./MPI/*.cpp ./MPI/MPICH/*.cpp)
 
 # define the C object files 
 #

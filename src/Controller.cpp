@@ -35,7 +35,7 @@ void AITuning_start(string layer)
   // printf("%lf\n",ud_perf_var.getLastValue());
 }
 
-void AITuning_addUserDefinedPerformanceVariable(UserDefinedPerformanceVar *ud)
+void AITuning_addUserDefinedPerformanceVar(UserDefinedPerformanceVar *ud)
 {
   collectionPerformanceVars->addPerformanceVariable(ud);
 }
