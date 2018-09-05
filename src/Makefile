@@ -39,7 +39,7 @@ OBJS = $(SRCS:.cpp=.o)
 
 # define the executable and static archive files
 MAIN = main
-ARCHIVE = libaituning.a
+ARCHIVE = ../lib/libaituning.a
 
 #
 # The following part of the makefile is generic; it can be used to 
