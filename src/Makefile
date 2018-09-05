@@ -12,9 +12,12 @@ MPICXX = mpic++
 CFLAGS = -Wall -g
 LDFLAGS = -lstdc++
 
-# define any directories containing header files other than /usr/include
-#
-INCLUDES = $(shell for incpath in `find ../include -type d`; do echo -I$${incpath}; done)
+# define any directories containing header files, and build the 
+# corresponding flags to use in the compilation line and the list
+# of files to use as depedencies
+INCDIRS = $(shell find ../include -type d)
+INCFLAGS = $(shell for incpath in $(INCDIRS); do echo -I$${incpath}; done)
+INCLUDES = $(wildcard $(shell for incpath in $(INCDIRS); do echo $${incpath}/*.h; done))
 
 # define any libraries to link into executable:
 #   if I want to link in libraries (libx.so or libx.a) I use the -llibname 
@@ -46,11 +49,16 @@ MAIN = main
 
 all:    $(MAIN)
 
-%.o: %.cpp
-	$(CXX) $(CFLAGS) $(INCLUDES) -c $? -o $@
+# A more sophisticated approach would let the object files depend only from
+# the actual dependencies, but that needs to be built outside of Makefile, see
+# https://stackoverflow.com/questions/2394609/makefile-header-dependencies and 
+# particularly [the second answer](https://stackoverflow.com/a/30142139/25891)
+# for details
+%.o: %.cpp $(INCLUDES)
+	$(CXX) $(CFLAGS) $(INCFLAGS) -c $< -o $@
 
 $(MAIN): $(OBJS)
-	$(CXX) $(CFLAGS) $(INCLUDES) $? -o $@ $(OBJS) $(LFLAGS) $(LIBS)
+	$(CXX) $(CFLAGS) $(INCFLAGS) $? -o $@ $(OBJS) $(LFLAGS) $(LIBS)
 
 clean:
 	-$(RM) $(OBJS) *~ $(MAIN)
