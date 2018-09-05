@@ -20,8 +20,8 @@ int MPI_Init_thread(int *argc, char ***argv, int required, int *provided)
 
   AITuning_start("MPICH");
   UserDefinedPerformanceVar *total_time_v = new UserDefinedPerformanceVar((char*)"total_time",(char*)"total_time_log.txt");
-  AITuning_addUserDefinedPerformanceVariable(total_time_v);
-  total_time_p = new SingleProbe((char*)"total_time_probe", &total_time_v);
+  AITuning_addUserDefinedPerformanceVar(total_time_v);
+  total_time_p = new SingleProbe((char*)"total_time_probe", total_time_v);
 
   err = PMPI_Init_thread(argc, argv, required, provided);
 
