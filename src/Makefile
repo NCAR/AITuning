@@ -9,7 +9,7 @@
 CXX = mpic++
 MPICXX = mpic++
 # define any compile-time flags
-CFLAGS = -Wall -g
+CFLAGS = -Wall -g -static
 LDFLAGS = -lstdc++
 
 # define any directories containing header files, and build the 
@@ -37,17 +37,18 @@ SRCS = $(wildcard main.cpp ./MPI/*.cpp ./MPI/MPICH/*.cpp)
 #
 OBJS = $(SRCS:.cpp=.o)
 
-# define the executable file 
+# define the executable and static archive files
 MAIN = main
+ARCHIVE = libaituning.a
 
 #
 # The following part of the makefile is generic; it can be used to 
 # build any executable just by changing the definitions above and by
 # deleting dependencies appended to the file from 'make depend'
 #
-.PHONY: depend clean
+.PHONY: clean
 
-all:    $(MAIN)
+all:    $(ARCHIVE)
 
 # A more sophisticated approach would let the object files depend only from
 # the actual dependencies, but that needs to be built outside of Makefile, see
@@ -57,8 +58,11 @@ all:    $(MAIN)
 %.o: %.cpp $(INCLUDES)
 	$(CXX) $(CFLAGS) $(INCFLAGS) -c $< -o $@
 
+$(ARCHIVE): $(OBJS)
+	$(AR) rcs $@ $?
+
 $(MAIN): $(OBJS)
 	$(CXX) $(CFLAGS) $(INCFLAGS) $? -o $@ $(OBJS) $(LFLAGS) $(LIBS)
 
 clean:
-	-$(RM) $(OBJS) *~ $(MAIN)
+	-$(RM) $(OBJS) *~ $(MAIN) $(ARCHIVE)
