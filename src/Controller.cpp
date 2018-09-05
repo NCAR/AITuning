@@ -24,18 +24,18 @@ void AITuning_start(string layer)
   collectionControlVars = collectionFactory->createCollectionControlVar();
   collectionPerformanceVars = collectionFactory->createCollectionPerformanceVar();
 
-  UserDefinedPerformanceVar ud_perf_var("Total_time","myfile.txt");
+  // UserDefinedPerformanceVar ud_perf_var("Total_time","myfile.txt");
 
-  collectionPerformanceVars->addPerformanceVariable(&ud_perf_var);
+  // collectionPerformanceVars->addPerformanceVariable(&ud_perf_var);
   
-  SingleProbe probe_time("Total_time_probe", &ud_perf_var);
+  // SingleProbe probe_time("Total_time_probe", &ud_perf_var);
 
-  probe_time.registerValue(100.0);
-  probe_time.registerValue(140.0);
-  printf("%lf\n",ud_perf_var.getLastValue());
+  // probe_time.registerValue(100.0);
+  // probe_time.registerValue(140.0);
+  // printf("%lf\n",ud_perf_var.getLastValue());
 }
 
-void addUserDefinedPerformanceVariable(UserDefinedPerformanceVariable *ud)
+void AITuning_addUserDefinedPerformanceVariable(UserDefinedPerformanceVar *ud)
 {
-  collectionPerformanceVars.addPerformanceVariable(ud);
+  collectionPerformanceVars->addPerformanceVariable(ud);
 }

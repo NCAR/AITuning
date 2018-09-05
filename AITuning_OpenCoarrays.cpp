@@ -19,17 +19,14 @@ int MPI_Init_thread(int *argc, char ***argv, int required, int *provided)
   bool async_on = false;
 
   AITuning_start("MPICH");
-  UserDefinedPerformanceVariable *total_time_v = new UserDefinedPerformanceVariable("total_time","total_time_log.txt");
+  UserDefinedPerformanceVar *total_time_v = new UserDefinedPerformanceVar((char*)"total_time",(char*)"total_time_log.txt");
   AITuning_addUserDefinedPerformanceVariable(total_time_v);
-  total_time_p = new SingleProbe(&total_time_v);
+  total_time_p = new SingleProbe((char*)"total_time_probe", &total_time_v);
 
   err = PMPI_Init_thread(argc, argv, required, provided);
 
   MPI_Comm_size(MPI_COMM_WORLD, &n_procs);
   MPI_Comm_rank(MPI_COMM_WORLD, &my_id);
-
-  if(async_on && my_id == 0)
-    printf("Async on\n");
   
   start_time = MPI_Wtime();
   

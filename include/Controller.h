@@ -6,4 +6,4 @@
 using namespace std;
 
 void AITuning_start(string layer);
-void addUserDefinedPerformanceVariable(UserDefinedPerformanceVariable *ud);
+void AITuning_addUserDefinedPerformanceVar(UserDefinedPerformanceVar *ud);

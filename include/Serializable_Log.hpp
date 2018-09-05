@@ -1,13 +1,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <map>
 #include <iterator>
 #include <fstream>
-#include <boost/serialization/vector.hpp>
-#include <boost/archive/text_oarchive.hpp>   
-#include <boost/archive/text_iarchive.hpp>
-
 using namespace std;
 
 #ifndef SERIAL_LOG_H
@@ -18,8 +13,7 @@ private:
   string filename_;
   int last_log_;
   std::vector<double> recent_log_;
-  std::vector<std::vector<double>> history_log_;
-    
+  std::vector<std::vector<double>> history_log_;    
 public:
   
   PerformanceVariableLog(string filename)
@@ -63,5 +57,4 @@ public:
     history_log_.pop_back();
   }
 };
-
 #endif

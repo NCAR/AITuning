@@ -19,10 +19,11 @@ public:
 class SingleProbe : public Probe
 {
 public:
-  SingleProbe(PerformanceVariable *perf_var)
+  SingleProbe(char *name, PerformanceVariable *perf_var)
   {
     perf_var_ = perf_var;
-    name_ = perf_var->name_ + "_probe";
+    std::string tmp_name = name;
+    name_ = tmp_name;
   }
   void registerValue(double val)
   {
