@@ -19,10 +19,10 @@ public:
 class SingleProbe : public Probe
 {
 public:
-  SingleProbe(string name, PerformanceVariable *perf_var)
+  SingleProbe(PerformanceVariable *perf_var)
   {
-    name_ = name;
     perf_var_ = perf_var;
+    name_ = perf_var->name_ + "_probe";
   }
   void registerValue(double val)
   {

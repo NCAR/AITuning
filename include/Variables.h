@@ -61,9 +61,11 @@ public:
 class UserDefinedPerformanceVar : public PerformanceVariable
 {
 public:
-  UserDefinedPerformanceVar(string name, string filename){
-    name_ = name;
-    log_ = new PerformanceVariableLog(filename);
+  UserDefinedPerformanceVar(char* name, char* filename){
+    std::string tmp_name = name;
+    std::string tmp_filename = filename;
+    name_ = tmp_name;
+    log_ = new PerformanceVariableLog(tmp_filename);
   }
 };
 

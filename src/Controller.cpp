@@ -7,6 +7,9 @@
 
 using namespace std;
 
+CollectionControlVar *collectionControlVars;
+CollectionPerformanceVar *collectionPerformanceVars;
+
 void AITuning_start(string layer)
 {
   // int provided;
@@ -18,13 +21,8 @@ void AITuning_start(string layer)
   else
     perror("Layer not supported");
 
-  CollectionControlVar *collectionControlVars;
-  CollectionPerformanceVar *collectionPerformanceVars;
-
   collectionControlVars = collectionFactory->createCollectionControlVar();
   collectionPerformanceVars = collectionFactory->createCollectionPerformanceVar();
-  
-  // MPI_Init_thread(NULL,NULL,MPI_THREAD_FUNNELED,&provided);
 
   UserDefinedPerformanceVar ud_perf_var("Total_time","myfile.txt");
 
@@ -35,4 +33,9 @@ void AITuning_start(string layer)
   probe_time.registerValue(100.0);
   probe_time.registerValue(140.0);
   printf("%lf\n",ud_perf_var.getLastValue());
+}
+
+void addUserDefinedPerformanceVariable(UserDefinedPerformanceVariable *ud)
+{
+  collectionPerformanceVars.addPerformanceVariable(ud);
 }
