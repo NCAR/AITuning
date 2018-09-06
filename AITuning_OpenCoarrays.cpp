@@ -70,6 +70,19 @@ int MPI_Put(const void *origin_addr, int origin_count, MPI_Datatype
   return ret;
 }
 
+int MPI_Win_flush(int rank, MPI_Win win)
+{
+  int ret;
+  double start_time_flush, end_time_flush;
+  start_time_flush = MPI_Wtime();
+  ret = PMPI_Win_flush(rank, win);
+  end_time_flush = MPI_Wtime();
+
+  flush_time_p->registerValue(end_time_flush - start_time_flush);
+  
+  return ret;
+}
+
 int MPI_Finalize(void){
 
   int err = -1;
