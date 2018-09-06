@@ -46,7 +46,8 @@ public:
   
   void logPerformanceValue(double val)
   {
-    log_->logValue(val);
+    double quantized_val = quantizer->quantize(val);
+    log_->logValue(quantized_val);
   }
   
   void saveLog()
