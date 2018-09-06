@@ -6,6 +6,9 @@
 
 using namespace std;
 
+#ifndef PROBES_H
+#define PROBES_H
+
 // Abstract class
 class Probe
 {
@@ -30,3 +33,4 @@ public:
     perf_var_->logPerformanceValue(val);
   }
 };
+#endif

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <Serializable_Log.hpp>
+#include "Quantizer.h"
 
 using namespace std;
 
@@ -26,6 +27,7 @@ class PerformanceVariable
 protected:
   string name_;
   PerformanceVariableLog *log_;
+  Quantizer *quantizer = NULL;
 public:
   
   string getName(){
@@ -61,11 +63,12 @@ public:
 class UserDefinedPerformanceVar : public PerformanceVariable
 {
 public:
-  UserDefinedPerformanceVar(char* name, char* filename){
+  UserDefinedPerformanceVar(char* name, char* filename, double step = 0.01){
     std::string tmp_name = name;
     std::string tmp_filename = filename;
     name_ = tmp_name;
     log_ = new PerformanceVariableLog(tmp_filename);
+    quantizer = new UniformQuantizer(step);
   }
 };
 
