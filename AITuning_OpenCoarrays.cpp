@@ -21,7 +21,9 @@ int MPI_Init_thread(int *argc, char ***argv, int required, int *provided)
   int provided_t, err = -1;
   bool async_on = false;
 
-  AITuning_start("MPICH");
+  AITuning_start("MVAPICH");
+
+  
 
   err = PMPI_Init_thread(argc, argv, required, provided);
 
@@ -73,7 +75,7 @@ int MPI_Put(const void *origin_addr, int origin_count, MPI_Datatype
 int MPI_Win_flush(int rank, MPI_Win win)
 {
   int ret;
-  double start_time_flush, end_time_flush;
+  double start_time_flush=1.0, end_time_flush=1.0;
   start_time_flush = MPI_Wtime();
   ret = PMPI_Win_flush(rank, win);
   end_time_flush = MPI_Wtime();
