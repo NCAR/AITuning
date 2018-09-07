@@ -8,7 +8,6 @@ using namespace std;
 
 PerformanceVariableMVAPICH::PerformanceVariableMVAPICH(string name, int var_class, MPI_T_Manager *mpi_t_manager)
 {
-  int err = -1;
   name_ = name;
   mpi_t_manager_ = mpi_t_manager;
   var_class_ = var_class;
