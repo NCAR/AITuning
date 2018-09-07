@@ -51,6 +51,11 @@ class CollectionControlVar
   {
     controlVarsList_.push_back(var);
   }
+
+  ControlVariable * getControlVariable(int index)
+  {
+    return controlVarsList_.at(index);
+  }
 };
 
 // Abstract class
