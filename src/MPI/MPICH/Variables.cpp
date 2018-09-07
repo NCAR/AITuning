@@ -6,19 +6,19 @@
 
 using namespace std;
 
-PerformanceVariableMPICH::PerformanceVariableMPICH(string name, int var_class, MPI_T_Manager *mpi_t_manager)
+MPICHPerformanceVariable::MPICHPerformanceVariable(string name, int var_class, MPI_T_Manager *mpi_t_manager)
 {
-  int err=-1;
   name_ = name;
   mpi_t_manager_ = mpi_t_manager;
   var_class_ = var_class;
+  p_session_ = mpi_t_manager_->getPerformanceSession();
+  p_handle_ = mpi_t_manager_->getPerformanceHandle(name_, var_class_, &index_, p_session_);
+  log_ = new PerformanceVariableLog(name+".log");
+}
+
+void MPICHPerformanceVariable::logPerformanceValue()
+{
   
-
-
-
-  err = MPI_T_pvar_get_index(name_.c_str(), var_class_, &index_);
-  if(err != MPI_SUCCESS)
-    perror ("Error in PerformanceVariable Contructor");
 }
 
 MPICHIntControlVariable::MPICHIntControlVariable(string name, int inc, MPI_T_Manager *mpi_t_manager)

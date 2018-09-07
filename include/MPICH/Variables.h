@@ -9,7 +9,7 @@ using namespace std;
 #ifndef MPICH_VARS_H
 #define MPICH_VARS_H
 
-class PerformanceVariableMPICH : public PerformanceVariable
+class MPICHPerformanceVariable : public PerformanceVariable
 {
 private:
   string name_;
@@ -18,9 +18,9 @@ private:
   MPI_Datatype dt_;
   MPI_T_Manager *mpi_t_manager_ = NULL;
 public:
-  PerformanceVariableMPICH(string name, int var_class, MPI_T_Manager *mpi_t_manager);
+  MPICHPerformanceVariable(string name, int var_class, MPI_T_Manager *mpi_t_manager);
   PerformanceVariableLog getPerformanceVariableLog();
-  void logPerformanceValue(double val);
+  void logPerformanceValue();
   void saveLog();
 };
 

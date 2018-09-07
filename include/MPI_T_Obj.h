@@ -16,7 +16,7 @@ public:
 
   MPI_T_pvar_session getPerformanceSession();
   MPI_T_pvar_handle getPerformanceHandle(string performance_var_name, int var_class, int *pidx, MPI_T_pvar_session p_session);
-
+  
   MPI_T_cvar_handle getControlHandle(string, int *);
   void onOffControlVar(MPI_T_cvar_handle c_handle, int onOff);
   int getControlVar(MPI_T_cvar_handle c_handle);

@@ -6,7 +6,7 @@
 
 using namespace std;
 
-PerformanceVariableMVAPICH::PerformanceVariableMVAPICH(string name, int var_class, MPI_T_Manager *mpi_t_manager)
+MVAPICHPerformanceVariable::MVAPICHPerformanceVariable(string name, int var_class, MPI_T_Manager *mpi_t_manager)
 {
   name_ = name;
   mpi_t_manager_ = mpi_t_manager;
