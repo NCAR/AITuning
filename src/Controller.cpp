@@ -18,21 +18,13 @@ void AITuning_start(string layer)
 
   if(layer == "MPICH")
     collectionFactory = new CollectionCreatorMPICH();
+  else if(layer=="MVAPICH" || "MVAPICH2")
+    collectionFactory = new CollectionCreatorMVAPICH();
   else
     perror("Layer not supported");
 
   collectionControlVars = collectionFactory->createCollectionControlVar();
   collectionPerformanceVars = collectionFactory->createCollectionPerformanceVar();
-
-  // UserDefinedPerformanceVar ud_perf_var("Total_time","myfile.txt");
-
-  // collectionPerformanceVars->addPerformanceVariable(&ud_perf_var);
-  
-  // SingleProbe probe_time("Total_time_probe", &ud_perf_var);
-
-  // probe_time.registerValue(100.0);
-  // probe_time.registerValue(140.0);
-  // printf("%lf\n",ud_perf_var.getLastValue());
 }
 
 void AITuning_addUserDefinedPerformanceVar(UserDefinedPerformanceVar *ud)
