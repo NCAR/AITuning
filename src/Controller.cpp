@@ -4,6 +4,8 @@
 #include "mpi.h"
 #include "MPICH/Collections_3_2_1.h"
 #include "MPICH/Variables.h"
+#include "MVAPICH/Collections_2_3.h"
+#include "MVAPICH/Variables.h"
 
 using namespace std;
 

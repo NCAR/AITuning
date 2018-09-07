@@ -13,6 +13,8 @@ CollectionCreatorMVAPICH::CollectionCreatorMVAPICH()
   control_vars_ = new CollectionControlVar("MVAPICH","2.3");
   performance_vars_ = new CollectionPerformanceVar("MVAPICH","2.3");
   
+  /* CONTROL VARIABLES */
+
   ControlVariable *tmp = new MVAPICHBoolControlVariable("MPIR_CVAR_ASYNC_PROGRESS", &mpi_t_manager);
   control_vars_->addControlVariable(tmp);
 
@@ -36,6 +38,11 @@ CollectionCreatorMVAPICH::CollectionCreatorMVAPICH()
 
   tmp = new MVAPICHIntControlVariable("MPIR_CVAR_POLLS_BEFORE_YIELD", 10, &mpi_t_manager);
   control_vars_->addControlVariable(tmp);
+
+  /* PERFORMANCE VARIABLES */
+
+  
+
 }
 
 CollectionPerformanceVar *CollectionCreatorMVAPICH::createCollectionPerformanceVar()

@@ -1,12 +1,12 @@
 #include <iostream>
 #include <string>
 #include "MPI_T_Obj.h"
-#include "MPICH/Variables.h"
+#include "MVAPICH/Variables.h"
 #include "mpi.h"
 
 using namespace std;
 
-PerformanceVariableMPICH::PerformanceVariableMPICH(string name, int var_class, MPI_T_Manager *mpi_t_manager)
+PerformanceVariableMVAPICH::PerformanceVariableMVAPICH(string name, int var_class, MPI_T_Manager *mpi_t_manager)
 {
   int err=-1;
   name_ = name;
@@ -17,7 +17,7 @@ PerformanceVariableMPICH::PerformanceVariableMPICH(string name, int var_class, M
     perror ("Error in PerformanceVariable Contructor");
 }
 
-MPICHIntControlVariable::MPICHIntControlVariable(string name, int inc, MPI_T_Manager *mpi_t_manager)
+MVAPICHIntControlVariable::MVAPICHIntControlVariable(string name, int inc, MPI_T_Manager *mpi_t_manager)
 {
   name_ = name;
   increment_ = inc;
@@ -26,12 +26,12 @@ MPICHIntControlVariable::MPICHIntControlVariable(string name, int inc, MPI_T_Man
   value_ = mpi_t_manager_->getControlVar(c_handle);
 }
 
-int MPICHIntControlVariable::getValue()
+int MVAPICHIntControlVariable::getValue()
 {
   return value_;
 }
 
-void MPICHIntControlVariable::setValue(int val)
+void MVAPICHIntControlVariable::setValue(int val)
 {
   mpi_t_manager_->setControlVar(c_handle, val);
   value_ = mpi_t_manager_->getControlVar(c_handle);
@@ -39,24 +39,24 @@ void MPICHIntControlVariable::setValue(int val)
     perror("Set on control variable unsuccessful");
 }
 
-void MPICHIntControlVariable::setIncrement(int inc)
+void MVAPICHIntControlVariable::setIncrement(int inc)
 {
   increment_ = inc;
 }
 
-void MPICHIntControlVariable::incrementVar()
+void MVAPICHIntControlVariable::incrementVar()
 {
   int new_val = -1;
   new_val = value_ + increment_;
   setValue(new_val);
 }
 
-void MPICHIntControlVariable::printVar()
+void MVAPICHIntControlVariable::printVar()
 {
   printf("%s: %d\n",name_.c_str(),value_);
 }
 
-MPICHBoolControlVariable::MPICHBoolControlVariable(string name, MPI_T_Manager *mpi_t_manager)
+MVAPICHBoolControlVariable::MVAPICHBoolControlVariable(string name, MPI_T_Manager *mpi_t_manager)
 {
   name_ = name;
   mpi_t_manager_ = mpi_t_manager;
@@ -66,12 +66,12 @@ MPICHBoolControlVariable::MPICHBoolControlVariable(string name, MPI_T_Manager *m
   value_ = mpi_t_manager_->getControlVar(c_handle);
 }
 
-int MPICHBoolControlVariable::getValue()
+int MVAPICHBoolControlVariable::getValue()
 {
   return value_;
 }
 
-void MPICHBoolControlVariable::setValue(int val)
+void MVAPICHBoolControlVariable::setValue(int val)
 {  
   mpi_t_manager_->setControlVar(c_handle, val == 0 ? 0 : 1);
   value_ = mpi_t_manager_->getControlVar(c_handle);
@@ -79,7 +79,7 @@ void MPICHBoolControlVariable::setValue(int val)
     perror("Set on control variable unsuccessful");
 }
 
-void MPICHBoolControlVariable::incrementVar()
+void MVAPICHBoolControlVariable::incrementVar()
 {
   if(value_ == 1)
     {
@@ -93,7 +93,7 @@ void MPICHBoolControlVariable::incrementVar()
     }
 }
 
-void MPICHBoolControlVariable::printVar()
+void MVAPICHBoolControlVariable::printVar()
 {
   printf("%s: %d\n",name_.c_str(),value_);
 }
