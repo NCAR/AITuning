@@ -12,6 +12,10 @@ PerformanceVariableMPICH::PerformanceVariableMPICH(string name, int var_class, M
   name_ = name;
   mpi_t_manager_ = mpi_t_manager;
   var_class_ = var_class;
+  
+
+
+
   err = MPI_T_pvar_get_index(name_.c_str(), var_class_, &index_);
   if(err != MPI_SUCCESS)
     perror ("Error in PerformanceVariable Contructor");

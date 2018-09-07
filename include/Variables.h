@@ -26,6 +26,7 @@ class PerformanceVariable
 {
 protected:
   string name_;
+  int class_;
   PerformanceVariableLog *log_;
   Quantizer *quantizer = NULL;
 public:
@@ -43,12 +44,9 @@ public:
   {
     return log_;
   }
-  
-  void logPerformanceValue(double val)
-  {
-    double quantized_val = quantizer->quantize(val);
-    log_->logValue(quantized_val);
-  }
+
+  virtual void logPerformanceValue(){;}
+  virtual void logPerformanceValue(double val){;}
   
   void saveLog()
   {
@@ -71,6 +69,15 @@ public:
     log_ = new PerformanceVariableLog(tmp_filename);
     quantizer = new UniformQuantizer(step);
   }
+
+  using PerformanceVariable::logPerformanceValue;
+  void logPerformanceValue(double val)
+  {
+    double quantized_val = quantizer->quantize(val);
+    printf("Value: %lf\n",quantized_val);
+    log_->logValue(quantized_val);
+  }
+
 };
 
 #endif

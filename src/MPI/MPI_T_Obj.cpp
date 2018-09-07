@@ -35,21 +35,51 @@ MPI_T_cvar_handle MPI_T_Manager::getControlHandle(string control_var_name, int *
     return c_handle;
   }
 
-  // MPI_T_pvar_handle getPerformanceHandle(string performance_var_name)
-  // {
-  //   int err, cidx, nvals, var_class;
-  //   MPI_T_pvar_handle p_handle;
+MPI_T_pvar_session getPerformanceSession()
+{
+  MPI_T_pvar_session p_session;
+  
+  MPI_T_pvar_session_create(&p_session);
+ 
+  return p_session;
+}
+
+MPI_T_pvar_handle getPerformanceHandle(string performance_var_name, int var_class, int *pidx, MPI_T_pvar_session p_session)
+  {
+    int err, nvals;
+    MPI_T_pvar_handle p_handle;
     
-  //   err = MPI_T_pvar_get_index(performance_var_name.c_str(), MPI_T_PVAR_CLASS_STATE, &cidx);
-  //   if(err != MPI_SUCCESS)
-  //     perror ("Error during MPI_T_pvar_get_index");
+    err = MPI_T_pvar_get_index(performance_var_name.c_str(), var_class_, pidx);
+    if(err != MPI_SUCCESS)
+      perror ("Error during MPI_T_pvar_get_index");
 
-  //   err = MPI_T_pvar_handle_alloc(cidx, NULL, &p_handle, &nvals);
-  //   if(err != MPI_SUCCESS)
-  //     perror ("Error during handle allocation");
+    err = MPI_T_pvar_handle_alloc(p_session, pidx, NULL, &p_handle, &nvals);
+    if(err != MPI_SUCCESS)
+      perror ("Error during p_handle allocation");
 
-  //   return p_handle;
-  // }
+    return p_handle;
+  }
+
+int MPI_T_Manager::getControlVar(MPI_T_cvar_handle c_handle)
+  {
+    int err = -1;
+    int val;
+    
+    err = MPI_T_cvar_read(c_handle, &val);
+    if(err != MPI_SUCCESS)
+      perror ("Error during cvar read");
+
+    return val;
+  }
+
+void MPI_T_Manager::setControlVar(MPI_T_cvar_handle c_handle, int val)
+  {
+    int err = -1;
+
+    err = MPI_T_cvar_write(c_handle, &val);
+    if(err != MPI_SUCCESS)
+      perror ("Error during cvar write with value");
+  }  
 
 void MPI_T_Manager::onOffControlVar(MPI_T_cvar_handle c_handle, int onOff)
   {
