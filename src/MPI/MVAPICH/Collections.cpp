@@ -18,10 +18,10 @@ CollectionCreatorMVAPICH::CollectionCreatorMVAPICH()
   ControlVariable *tmp = new MVAPICHBoolControlVariable("MPIR_CVAR_ASYNC_PROGRESS", &mpi_t_manager);
   control_vars_->addControlVariable(tmp);
 
-  ControlVariable *tmp = new MVAPICHBoolControlVariable("MPIR_CVAR_USE_SHARED_MEM", &mpi_t_manager);
+  tmp = new MVAPICHBoolControlVariable("MPIR_CVAR_USE_SHARED_MEM", &mpi_t_manager);
   control_vars_->addControlVariable(tmp);
 
-  ControlVariable *tmp = new MVAPICHBoolControlVariable("MPIR_CVAR_ENABLE_SHARP", &mpi_t_manager);
+  tmp = new MVAPICHBoolControlVariable("MPIR_CVAR_ENABLE_SHARP", &mpi_t_manager);
   control_vars_->addControlVariable(tmp);
 
   tmp = new MVAPICHBoolControlVariable("MPIR_CVAR_CH3_RMA_DELAY_ISSUING_FOR_PIGGYBACKING", &mpi_t_manager);
