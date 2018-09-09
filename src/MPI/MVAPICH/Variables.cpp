@@ -15,6 +15,28 @@ MVAPICHPerformanceVariable::MVAPICHPerformanceVariable(string name, int var_clas
   p_handle_ = mpi_t_manager_->getPerformanceHandle(name_, var_class_, &index_, p_session_);
 }
 
+void MVAPICHPerformanceVariable::logPerformanceValue()
+{
+  if(dt_ == MPI_INT)
+    {
+      int res = mpi_t_manager_->getPerformanceVar<int>(p_session_, p_handle_);
+      printf("Reading %lf\n", static_cast<double>(res));
+      log_->logValue(static_cast<double>(res));
+    }
+  else if(dt_ == MPI_LONG)
+    {
+      long res = mpi_t_manager_->getPerformanceVar<long>(p_session_, p_handle_);
+      printf("Reading %lf\n", static_cast<double>(res));
+      log_->logValue(static_cast<double>(res));
+    }
+  else
+    {
+      double res = mpi_t_manager_->getPerformanceVar<double>(p_session_, p_handle_);
+      printf("Reading %lf\n", static_cast<double>(res));
+      log_->logValue(static_cast<double>(res));
+    }
+}
+
 MVAPICHIntControlVariable::MVAPICHIntControlVariable(string name, int inc, MPI_T_Manager *mpi_t_manager)
 {
   name_ = name;
