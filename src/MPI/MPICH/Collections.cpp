@@ -30,6 +30,8 @@ CollectionCreatorMPICH::CollectionCreatorMPICH()
   /* PERFORMANCE VARIABLES */
 
   PerformanceVariable *tmp_p = new MPICHPerformanceVariable("unexpected_recvq_length", MPI_T_PVAR_CLASS_LEVEL, &mpi_t_manager);
+
+  performance_vars_->addPerformanceVariable(tmp_p);
   
 }
 
