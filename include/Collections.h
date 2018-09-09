@@ -29,6 +29,12 @@ public:
   {
     performanceVarsList_.push_back(var);
   }
+
+  void registerPerformanceVariables()
+  {
+    for(int it = 0; it != (int)performanceVarsList_.size(); ++it)
+      performanceVarsList_.at(it)->logPerformanceValue();
+  }
 };
 
 class CollectionControlVar

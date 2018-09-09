@@ -33,3 +33,8 @@ void AITuning_addUserDefinedPerformanceVar(UserDefinedPerformanceVar *ud)
 {
   collectionPerformanceVars->addPerformanceVariable(ud);
 }
+
+void AITuning_readPerformanceVariables()
+{
+  collectionPerformanceVars->registerPerformanceVariables();
+}
