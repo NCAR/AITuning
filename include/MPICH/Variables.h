@@ -17,6 +17,8 @@ private:
   int var_class_;
   MPI_Datatype dt_;
   MPI_T_Manager *mpi_t_manager_ = NULL;
+  MPI_T_pvar_handle p_handle_;
+  MPI_T_pvar_session p_session_;
 public:
   MPICHPerformanceVariable(string name, int var_class, MPI_T_Manager *mpi_t_manager);
   PerformanceVariableLog getPerformanceVariableLog();

@@ -60,6 +60,17 @@ MPI_T_pvar_handle MPI_T_Manager::getPerformanceHandle(string performance_var_nam
     return p_handle;
   }
 
+void MPI_T_Manager::getPvarDatatype(int idx, MPI_Datatype *dt)
+{
+  int err = -1;
+
+  err = MPI_T_pvar_get_info(idx, NULL, NULL, NULL, NULL, dt,
+			    NULL, NULL, NULL, NULL, NULL, NULL,
+			    NULL);
+  if(err != MPI_SUCCESS)
+    perror ("Error during MPI_T_pvar_get_info");
+}
+
 int MPI_T_Manager::getControlVar(MPI_T_cvar_handle c_handle)
   {
     int err = -1;
