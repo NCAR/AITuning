@@ -21,12 +21,10 @@ int MPI_Init_thread(int *argc, char ***argv, int required, int *provided)
   int provided_t, err = -1;
   bool async_on = false;
 
-  AITuning_start("MVAPICH");
-
-  
-
   err = PMPI_Init_thread(argc, argv, required, provided);
 
+  AITuning_start("MPICH");
+  
   MPI_Comm_size(MPI_COMM_WORLD, &n_procs);
   MPI_Comm_rank(MPI_COMM_WORLD, &my_id);
 
