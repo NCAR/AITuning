@@ -46,14 +46,12 @@ MPI_T_pvar_session MPI_T_Manager::getPerformanceSession()
 
 MPI_T_pvar_handle MPI_T_Manager::getPerformanceHandle(string performance_var_name, int var_class, int *pidx, MPI_T_pvar_session p_session)
   {
-    int err=-1, nvals, tmp_pidx;
+    int err=-1, nvals;
     MPI_T_pvar_handle p_handle;
 
-    err = MPI_T_pvar_get_index(performance_var_name.c_str(), var_class, &tmp_pidx);
+    err = MPI_T_pvar_get_index(performance_var_name.c_str(), var_class, pidx);
     if(err != MPI_SUCCESS)
       perror ("Error during MPI_T_pvar_get_index");
-
-    *pidx = tmp_pidx;
 
     err = MPI_T_pvar_handle_alloc(p_session, *pidx, NULL, &p_handle, &nvals);
     if(err != MPI_SUCCESS)
