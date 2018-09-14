@@ -32,6 +32,11 @@ public:
     cout << recent_log_.back() << endl;
   }
 
+  vector<double> getRecentLog()
+  {
+    return recent_log_;
+  }
+  
   double getLastLog()
   {
     return recent_log_.back();

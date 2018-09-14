@@ -47,6 +47,11 @@ public:
 
   virtual void logPerformanceValue(){;}
   virtual void logPerformanceValue(double val){;}
+
+  Statistics *generateStatistics()
+  {
+    Statistics *stats = new Statistics(log_);
+  }
   
   void saveLog()
   {
@@ -56,6 +61,24 @@ public:
   void loadLog()
   {
     log_->loadHistory();
+  }
+};
+
+class ConstantPerformanceVar :: public PerformanceVariable
+{
+ private:
+  const double value_;
+
+public:
+  ConstantPerformanceVar(string name, double value)
+    {
+      name_ = name;
+      value_ = value;
+      log_ = new PerformanceVariableLog(tmp_filename);
+    }
+
+  void logPerformanceValue(){
+    log_->logValue(value_);
   }
 };
 

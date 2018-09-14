@@ -11,7 +11,7 @@ using namespace std;
 
 CollectionControlVar *collectionControlVars;
 CollectionPerformanceVar *collectionPerformanceVars;
-CollectionCreator *collectionFactory;
+static CollectionCreator *collectionFactory;
 
 void AITuning_start(string layer)
 {
