@@ -21,6 +21,12 @@ public:
     last_log_ = 0;
     filename_ = filename;
   }
+
+  PerformanceVariableLog()
+  {
+    last_log_ = 0;
+    filename_ = "";
+  }
   
   void logValue(double val)
   {

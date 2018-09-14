@@ -2,6 +2,7 @@
 #include <string>
 #include <Serializable_Log.hpp>
 #include "Quantizer.h"
+#include "Statistics.h"
 
 using namespace std;
 
@@ -51,6 +52,7 @@ public:
   Statistics *generateStatistics()
   {
     Statistics *stats = new Statistics(log_);
+    return stats;
   }
   
   void saveLog()
@@ -64,17 +66,17 @@ public:
   }
 };
 
-class ConstantPerformanceVar :: public PerformanceVariable
+class ConstantPerformanceVar : public PerformanceVariable
 {
  private:
-  const double value_;
+  double value_;
 
 public:
   ConstantPerformanceVar(string name, double value)
     {
       name_ = name;
       value_ = value;
-      log_ = new PerformanceVariableLog(tmp_filename);
+      log_ = new PerformanceVariableLog();
     }
 
   void logPerformanceValue(){

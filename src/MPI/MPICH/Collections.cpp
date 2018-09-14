@@ -32,9 +32,9 @@ CollectionCreatorMPICH::CollectionCreatorMPICH()
   PerformanceVariable *tmp_p = new MPICHPerformanceVariable("unexpected_recvq_length", MPI_T_PVAR_CLASS_LEVEL, &mpi_t_manager);
   performance_vars_->addPerformanceVariable(tmp_p);
 
-  double np;
+  int np;
   MPI_Comm_size(MPI_COMM_WORLD, &np);
-  tmp_p = new ConstantPerformanceVar("num_procs",np);
+  tmp_p = new ConstantPerformanceVar("num_procs",(double)np);
   performance_vars_->addPerformanceVariable(tmp_p);
 }
 

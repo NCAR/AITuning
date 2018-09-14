@@ -1,6 +1,12 @@
 #include <iostream>
 #include <vector>
 #include <numeric>
+#include <algorithm>
+
+using namespace std;
+
+#ifndef STATISTICS_H
+#define STATISTICS_H
 
 class Statistics{
 private:
@@ -10,7 +16,7 @@ private:
   double median_ = 0.0;
   vector<double> data_;
 public:
-  Statistics(PerformanceVariableLog log){
+  Statistics(PerformanceVariableLog *log){
     data_ = log->getRecentLog();
   }
 
@@ -18,7 +24,7 @@ public:
   {
     if(min_ > 0.0)
       return min_;
-    min_ = std::min_element(data_.begin(), data_.end());
+    min_ = *min_element(data_.begin(), data_.end());
     return min_;
   }
 
@@ -26,7 +32,7 @@ public:
   {
     if(max_ > 0.0)
       return max_;
-    max_ = std::max_element(data_.begin(), data_.end());
+    max_ = *max_element(data_.begin(), data_.end());
     return max_;
   }
 
@@ -42,6 +48,7 @@ public:
 
   double getMedian()
   {
+    int size_data = data_.size();
     if(median_ > 0.0)
       return median_;
     
@@ -54,3 +61,4 @@ public:
   }
   
 };
+#endif
