@@ -4,27 +4,53 @@
 
 class Statistics{
 private:
-  double min_;
-  double max_;
-  double mean_;
-  double median_;
+  double min_ = 0.0;
+  double max_ = 0.0;
+  double mean_ = 0.0;
+  double median_ = 0.0;
+  vector<double> data_;
 public:
   Statistics(PerformanceVariableLog log){
-    vector<double> data = log->getRecentLog();
-    int size_data = data.size();
-    double sum = std::accumulate(data.begin(), data.end(), 0.0);
-
-    mean_ = sum / size_data;
-    min_ = std::min_element(data.begin(), data.end());
-    max_ = std::max_element(data.begin(), data.end());
-
-    sort(data.begin(), data.end());
-    if (size_data % 2 == 0)
-      median_ =  (data[size_data / 2 - 1] + data[size_data / 2]) / 2;
-    else 
-      median_ = data[size_data / 2];
+    data_ = log->getRecentLog();
   }
 
-  
+  double getMin()
+  {
+    if(min_ > 0.0)
+      return min_;
+    min_ = std::min_element(data_.begin(), data_.end());
+    return min_;
+  }
+
+  double getMax()
+  {
+    if(max_ > 0.0)
+      return max_;
+    max_ = std::max_element(data_.begin(), data_.end());
+    return max_;
+  }
+
+  double getMean()
+  {
+    if(mean_ > 0.0)
+      return mean_;
+    int size_data = data_.size();
+    double sum = std::accumulate(data_.begin(), data_.end(), 0.0);
+    mean_ = sum / size_data;
+    return mean_;
+  }
+
+  double getMedian()
+  {
+    if(median_ > 0.0)
+      return median_;
+    
+    sort(data_.begin(), data_.end());
+    if (size_data % 2 == 0)
+      median_ =  (data_[size_data / 2 - 1] + data_[size_data / 2]) / 2;
+    else 
+      median_ = data_[size_data / 2];
+    return median_;
+  }
   
 };
