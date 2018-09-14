@@ -11,12 +11,11 @@ using namespace std;
 
 CollectionControlVar *collectionControlVars;
 CollectionPerformanceVar *collectionPerformanceVars;
+CollectionCreator *collectionFactory;
 
 void AITuning_start(string layer)
 {
   // int provided;
-
-  CollectionCreator *collectionFactory;
 
   if(layer == "MPICH")
     collectionFactory = new CollectionCreatorMPICH();
@@ -24,8 +23,15 @@ void AITuning_start(string layer)
     collectionFactory = new CollectionCreatorMVAPICH();
   else
     perror("Layer not supported");
+}
 
+void AITuning_setControlVariables()
+{
   collectionControlVars = collectionFactory->createCollectionControlVar();
+}
+
+void AITuning_setPerformanceVariables()
+{
   collectionPerformanceVars = collectionFactory->createCollectionPerformanceVar();
 }
 

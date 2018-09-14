@@ -40,8 +40,8 @@ public:
   void saveHistory()
   {
     std::ofstream outfile (filename_,std::ios::out | std::ios::app);
-    for(std::vector<double>::iterator it = recent_log_.begin(); it != recent_log_.end(); ++it) {
-      outfile << it << std::endl;
+    for(int it = 0; it < (signed int)recent_log_.size(); it++) {
+      outfile << std::to_string(recent_log_[it]) << std::endl;
     }
     outfile.close();
   }
