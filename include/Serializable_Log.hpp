@@ -19,7 +19,7 @@ public:
   PerformanceVariableLog(string filename)
   {
     last_log_ = 0;
-    filename_ = "./data/"+filename;
+    filename_ = filename;
   }
   
   void logValue(double val)
@@ -39,11 +39,11 @@ public:
 
   void saveHistory()
   {
-    // std::ofstream ofs( filename_ );
-    // boost::archive::text_oarchive ar(ofs);
-    // history_log_.push_back(recent_log_);
-    // history_log_ & ar;
-    ;
+    std::ofstream outfile (filename_,std::ios::out | std::ios::app);
+    for(std::vector<double>::iterator it = recent_log_.begin(); it != recent_log_.end(); ++it) {
+      outfile << it << std::endl;
+    }
+    outfile.close();
   }
 
   void loadHistory()
