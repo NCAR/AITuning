@@ -41,6 +41,8 @@ public:
     if(mean_ > 0.0)
       return mean_;
     int size_data = data_.size();
+    if(size_data == 0)
+      return 0.d;
     double sum = std::accumulate(data_.begin(), data_.end(), 0.0);
     mean_ = sum / size_data;
     return mean_;
