@@ -99,7 +99,6 @@ public:
   void logPerformanceValue(double val)
   {
     double quantized_val = quantizer->quantize(val);
-    printf("Value: %lf\n",quantized_val);
     log_->logValue(quantized_val);
   }
 

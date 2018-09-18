@@ -34,7 +34,7 @@ void MPICHPerformanceVariable::logPerformanceValue()
   else
     {
       double res = mpi_t_manager_->getPerformanceVar<double>(p_session_, p_handle_);
-      printf("Reading %lf\n", static_cast<double>(res));
+      //printf("Reading %lf\n", static_cast<double>(res));
       log_->logValue(static_cast<double>(res));
     }
 }

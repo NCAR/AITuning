@@ -30,7 +30,7 @@ public:
     vector<Statistics *> ret;
     int i;
 
-    for(i = 0; i < performanceVarsList_.size(); i++)
+    for(i = 0; i < (signed int)performanceVarsList_.size(); i++)
       ret.push_back(performanceVarsList_[i]->generateStatistics());
 
     return ret;
