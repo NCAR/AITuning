@@ -44,3 +44,8 @@ void AITuning_readPerformanceVariables()
 {
   collectionPerformanceVars->registerPerformanceVariables();
 }
+
+vector<Statistics *> AITuning_generateStatistics()
+{
+  return collectionPerformanceVars->generateStatistics();
+}

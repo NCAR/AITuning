@@ -24,6 +24,17 @@ public:
     transport_layer_ = name;
     version_ = ver;
   }
+
+  vector<Statistics *> generateStatistics()
+  {
+    vector<Statistics *> ret;
+    int i;
+
+    for(i = 0; i < performanceVarsList_.size(); i++)
+      ret.push_back(performanceVarsList_[i]->generateStatistics());
+
+    return ret;
+  }
   
   void addPerformanceVariable(PerformanceVariable *var)
   {
