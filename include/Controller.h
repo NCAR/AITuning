@@ -13,4 +13,5 @@ void AITuning_setPerformanceVariables();
 void AITuning_dumpControlVariablesOnFile();
 void AITuning_readControlVariablesFromFile();
 void AITuning_readAIChanges();
+void AITuning_cleanRelativePerfVars();
 vector<Statistics *> AITuning_generateStatistics();

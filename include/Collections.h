@@ -49,6 +49,13 @@ public:
     for(int it = 0; it != (int)performanceVarsList_.size(); ++it)
       performanceVarsList_.at(it)->logPerformanceValue();
   }
+
+  void cleanRelativePerformanceVariables()
+  {
+    for(int it = 0; it != (int)performanceVarsList_.size(); ++it)
+      if(performanceVarsList_.at(it)->isRelative())
+	performanceVarsList_.at(it)->deleteOriginalValOnFile();
+  }
 };
 
 class CollectionControlVar

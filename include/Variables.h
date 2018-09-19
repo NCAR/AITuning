@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <Serializable_Log.hpp>
+#include <stdio.h>
 #include "Quantizer.h"
 #include "Statistics.h"
 
@@ -83,6 +84,13 @@ public:
     outfile << original_val_;
     outfile.close();
   }
+
+  void deleteOriginalValOnFile()
+  {
+    string path = name_+"_orginal.txt";
+      if( remove( path.c_str() ) != 0 )
+      perror( "Error deleting file" );
+  }
   
   void saveLog()
   {
@@ -134,7 +142,7 @@ public:
 	original_val_ = quantized_val;
 	writeOriginalValToFile();
       }
-    else
+    else if(relative_var_ == true)
       {
 	double diff = original_val_ - quantized_val;
 	quantized_val = diff;
