@@ -139,10 +139,27 @@ for i in range(n_episodes):
         action_frequency[action] += 1
         
     print("total reward",total_reward)#,"action frequency",action_frequency)
-    print("control variables",control_vars[n_control_vars-1],control_vars[n_control_vars-2],control_vars[n_control_vars-3],control_vars[n_control_vars-4])
 
 def read_performance_vars():
     file_object  = open('performance_variables.txt', 'r')
     line = file_object.readline()
-    var_split = line.split(' ')
+    line.rstrip()
+    var_split = line[:-1].split(' ')
     perf_vars = np.array(var_split)
+    perf_vars_floats = [float(x) for x in perf_vars]
+    return perf_vars_floats
+
+def read_control_vars():
+    file_object  = open('control_variables.txt', 'r')
+    line = file_object.readline()
+    line.rstrip()
+    var_split = line[:-1].split(' ')
+    ctrl_vars = np.array(var_split)
+    ctrl_vars_floats = [int(x) for x in ctrl_vars]
+    return ctrl_vars_floats
+
+def write_changes(changes):
+    file_object  = open('changes.txt', 'w')
+    for i in changes:
+        file_object.write(str(changes[i])+" ")
+    
