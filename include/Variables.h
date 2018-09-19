@@ -20,6 +20,7 @@ public:
   virtual void setValue(int) = 0;
   virtual int getValue() = 0;
   virtual void incrementVar() = 0;
+  virtual void decrementVar() = 0;
   virtual void printVar() = 0;
 };
 

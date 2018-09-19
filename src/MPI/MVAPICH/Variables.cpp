@@ -71,6 +71,13 @@ void MVAPICHIntControlVariable::incrementVar()
   setValue(new_val);
 }
 
+void MVAPICHIntControlVariable::decrementVar()
+{
+  int new_val = -1;
+  new_val = value_ - increment_;
+  setValue(new_val);
+}
+
 void MVAPICHIntControlVariable::printVar()
 {
   printf("%s: %d\n",name_.c_str(),value_);
@@ -101,15 +108,19 @@ void MVAPICHBoolControlVariable::setValue(int val)
 
 void MVAPICHBoolControlVariable::incrementVar()
 {
+  if(value_ == 0)
+    {
+      mpi_t_manager_->onOffControlVar(c_handle,1);
+      value_ = 1;
+    }
+}
+
+void MVAPICHBoolControlVariable::decrementVar()
+{
   if(value_ == 1)
     {
       mpi_t_manager_->onOffControlVar(c_handle,0);
       value_ = 0;
-    }
-  else
-    {
-      mpi_t_manager_->onOffControlVar(c_handle,1);
-      value_ = 1;
     }
 }
 

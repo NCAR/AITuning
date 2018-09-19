@@ -42,6 +42,7 @@ public:
   void setValue(int val);
   void setIncrement(int inc);
   void incrementVar();
+  void decrementVar();
   void printVar();
 };
 
@@ -59,6 +60,7 @@ public:
   int getValue();
   void setValue(int val);
   void incrementVar();
+  void decrementVar();
   void printVar();
 };
 
