@@ -31,6 +31,7 @@ protected:
   int class_;
   PerformanceVariableLog *log_;
   bool relative_var_ = false;
+  double original_val_ = 0.d;
   Quantizer *quantizer = NULL;
 public:
   
@@ -55,6 +56,32 @@ public:
   {
     Statistics *stats = new Statistics(name_,log_);
     return stats;
+  }
+
+  void setRelativeVar()
+  {
+    relative_var_ = true;
+  }
+
+  bool isRelative()
+  {
+    return relative_var_;
+  }
+
+  void readOriginalValFromFile()
+  {
+    ifstream infile;
+    infile.open(name_+"_orginal.txt");
+    infile >> original_val_;
+    infile.close();
+  }
+
+  void writeOriginalValToFile()
+  {
+    ofstream outfile;
+    outfile.open(name_+"_orginal.txt");
+    outfile << original_val_;
+    outfile.close();
   }
   
   void saveLog()
@@ -102,12 +129,17 @@ public:
   void logPerformanceValue(double val)
   {
     double quantized_val = quantizer->quantize(val);
+    if(original_val_ == 0.d && relative_var_ == true)
+      {
+	original_val_ = quantized_val;
+	writeOriginalValToFile();
+      }
+    else
+      {
+	double diff = original_val_ - quantized_val;
+	quantized_val = diff;
+      }
     log_->logValue(quantized_val);
-  }
-
-  void setRelativeVar()
-  {
-    relative_var_ = true;
   }
 };
 

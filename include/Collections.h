@@ -38,6 +38,9 @@ public:
   
   void addPerformanceVariable(PerformanceVariable *var)
   {
+    if(var->isRelative())
+      var->readOriginalValFromFile();
+
     performanceVarsList_.push_back(var);
   }
 
