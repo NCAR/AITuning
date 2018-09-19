@@ -10,20 +10,29 @@ using namespace std;
 
 class Statistics{
 private:
+  string var_name_;
   double min_ = 0.0;
   double max_ = 0.0;
   double mean_ = 0.0;
   double median_ = 0.0;
   vector<double> data_;
 public:
-  Statistics(PerformanceVariableLog *log){
+  Statistics(string var_name, PerformanceVariableLog *log){
+    var_name_ = var_name;
     data_ = log->getRecentLog();
+  }
+
+  string getName()
+  {
+    return var_name_;
   }
 
   double getMin()
   {
     if(min_ > 0.0)
       return min_;
+    if(data_.size() == 0)
+      return 0.0;
     min_ = *min_element(data_.begin(), data_.end());
     return min_;
   }
@@ -32,6 +41,8 @@ public:
   {
     if(max_ > 0.0)
       return max_;
+    if(data_.size() == 0)
+      return 0.0;
     max_ = *max_element(data_.begin(), data_.end());
     return max_;
   }

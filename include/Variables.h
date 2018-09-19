@@ -51,7 +51,7 @@ public:
 
   Statistics *generateStatistics()
   {
-    Statistics *stats = new Statistics(log_);
+    Statistics *stats = new Statistics(name_,log_);
     return stats;
   }
   
