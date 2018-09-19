@@ -73,6 +73,17 @@ class CollectionControlVar
   {
     return controlVarsList_.at(index);
   }
+
+  void dumpCollectionOnFile()
+  {
+    ofstream outfile;
+    outfile.open("control_first_run.txt");
+
+    for(int i=0; i<(signed int)controlVarsList_.size(); i++)
+      outfile << controlVarsList_[i]->getValue() << " ";
+
+    outfile.close();
+  }
 };
 
 // Abstract class
