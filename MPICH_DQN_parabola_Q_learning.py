@@ -115,7 +115,8 @@ for i in range(n_episodes):
             control_vars[int(action/2)] = control_vars[int(action/2)] - 1
         else:
             control_vars[int(action/2)] = control_vars[int(action/2)] + 1
-        new_perf_vars = simulate_execution(control_vars, performance_vars)
+        # new_perf_vars = simulate_execution(control_vars, performance_vars)
+        new_perf_vars = read_performance_vars()
         reward = check_reward(performance_vars, new_perf_vars)
         performance_vars[:] = new_perf_vars[:]
         next_state = np.floor(new_perf_vars)
@@ -139,3 +140,9 @@ for i in range(n_episodes):
         
     print("total reward",total_reward)#,"action frequency",action_frequency)
     print("control variables",control_vars[n_control_vars-1],control_vars[n_control_vars-2],control_vars[n_control_vars-3],control_vars[n_control_vars-4])
+
+def read_performance_vars():
+    file_object  = open('performance_variables.txt', 'r')
+    line = file_object.readline()
+    var_split = line.split(' ')
+    perf_vars = np.array(var_split)
