@@ -35,6 +35,16 @@ void AITuning_dumpControlVariablesOnFile()
   collectionControlVars->dumpCollectionOnFile();
 }
 
+void AITuning_readControlVariablesFromFile()
+{
+  collectionControlVars->readCollectionFromFile();
+}
+
+void AITuning_readAIChanges()
+{
+  collectionControlVars->readAIChanges();
+}
+
 void AITuning_setPerformanceVariables()
 {
   collectionPerformanceVars = collectionFactory->createCollectionPerformanceVar();

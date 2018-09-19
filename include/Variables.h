@@ -30,6 +30,7 @@ protected:
   string name_;
   int class_;
   PerformanceVariableLog *log_;
+  bool relative_var_ = false;
   Quantizer *quantizer = NULL;
 public:
   
@@ -92,6 +93,7 @@ public:
     std::string tmp_name = name;
     std::string tmp_filename = filename;
     name_ = tmp_name;
+    relative_var_ = false;
     log_ = new PerformanceVariableLog(tmp_filename);
     quantizer = new UniformQuantizer(step);
   }
@@ -103,6 +105,10 @@ public:
     log_->logValue(quantized_val);
   }
 
+  void setRelativeVar()
+  {
+    relative_var_ = true;
+  }
 };
 
 #endif

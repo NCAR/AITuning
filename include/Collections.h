@@ -84,6 +84,40 @@ class CollectionControlVar
 
     outfile.close();
   }
+
+  void readCollectionFromFile()
+  {
+    ifstream infile;
+    infile.open("control_first_run.txt");
+    int val;
+
+    for(int i=0; i<(signed int)controlVarsList_.size(); i++)
+      {
+	infile >> val;
+	controlVarsList_[i]->setValue(val);
+      }
+    
+    infile.close();
+  }
+
+  void readAIChanges()
+  {
+    ifstream infile;
+    infile.open("changes.txt");
+    int val;
+
+    for(int i=0; i<(signed int)controlVarsList_.size(); i++)
+      {
+	infile >> val;
+	if(val == -1)
+	  controlVarsList_[i]->decrementVar();
+	else if(val == 1)
+	  controlVarsList_[i]->incrementVar();
+      }
+    
+    infile.close();
+  }
+  
 };
 
 // Abstract class
