@@ -140,6 +140,29 @@ for i in range(n_episodes):
         
     print("total reward",total_reward)#,"action frequency",action_frequency)
 
+perf_var_names = [
+"unexpected_recvq_length_avg",
+"unexpected_recvq_length_max",
+"num_rpocs_avg",
+"num_procs_max",
+"total_time_avg",
+"total_time_max",
+"put_time_avg",
+"put_time_max",
+"get_time_avg",
+"get_time_max",
+"flush_time_avg",
+"flush_time_max",
+]
+
+control_var_names = [
+"MPIR_CVAR_ASYNC_PROGRESS",
+"MPIR_CVAR_CH3_ENABLE_HCOLL",
+"MPIR_CVAR_CH3_RMA_DELAY_ISSUING_FOR_PIGGYBACKING",
+"MPIR_CVAR_CH3_RMA_OP_PIGGYBACK_LOCK_DATA_SIZE",
+"MPIR_CVAR_POLLS_BEFORE_YIELD",
+]
+
 def read_performance_vars():
     file_object  = open('performance_variables.txt', 'r')
     line = file_object.readline()
