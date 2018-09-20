@@ -1,1 +1,2 @@
 *.o
+.pytest_cache
