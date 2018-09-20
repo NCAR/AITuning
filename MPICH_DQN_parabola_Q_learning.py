@@ -165,7 +165,10 @@ control_var_names = [
 
 def read_performance_vars():
     file_object  = open('performance_variables.txt', 'r')
-    line = file_object.readline()
+    return _read_performance_vars(file_object)
+
+def _read_performance_vars(raw_data):
+    line = raw_data.readline()
     line.rstrip()
     var_split = line[:-1].split(' ')
     perf_vars = np.array(var_split)
@@ -174,7 +177,10 @@ def read_performance_vars():
 
 def read_control_vars():
     file_object  = open('control_variables.txt', 'r')
-    line = file_object.readline()
+    return _read_control_vars(file_object)
+
+def _read_control_vars(raw_data):
+    line = raw_data.readline()
     line.rstrip()
     var_split = line[:-1].split(' ')
     ctrl_vars = np.array(var_split)
