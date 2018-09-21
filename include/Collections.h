@@ -84,13 +84,16 @@ class CollectionControlVar
     return controlVarsList_.at(index);
   }
 
-  void dumpCollectionOnFile()
+  void dumpCollectionOnFile(bool first_run)
   {
     ofstream outfile;
-    outfile.open("control_first_run.txt");
+    if(first_run)
+      outfile.open("control_first_run.txt");
+    else
+      outfile.open("control_variables.txt");
 
     for(int i=0; i<(signed int)controlVarsList_.size(); i++)
-      outfile << controlVarsList_[i]->getValue() << " ";
+      outfile << controlVarsList_[i]->getName() << "=" << controlVarsList_[i]->getValue() << endl;
 
     outfile.close();
   }

@@ -10,7 +10,7 @@ void AITuning_addUserDefinedPerformanceVar(UserDefinedPerformanceVar *ud);
 void AITuning_readPerformanceVariables();
 void AITuning_setControlVariables();
 void AITuning_setPerformanceVariables();
-void AITuning_dumpControlVariablesOnFile();
+void AITuning_dumpControlVariablesOnFile(bool first_run = false);
 void AITuning_readControlVariablesFromFile();
 void AITuning_readAIChanges();
 void AITuning_cleanRelativePerfVars();

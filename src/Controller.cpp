@@ -30,9 +30,9 @@ void AITuning_setControlVariables()
   collectionControlVars = collectionFactory->createCollectionControlVar();
 }
 
-void AITuning_dumpControlVariablesOnFile()
+void AITuning_dumpControlVariablesOnFile(bool first_run = false)
 {
-  collectionControlVars->dumpCollectionOnFile();
+  collectionControlVars->dumpCollectionOnFile(first_run);
 }
 
 void AITuning_readControlVariablesFromFile()

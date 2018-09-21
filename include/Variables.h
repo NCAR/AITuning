@@ -18,6 +18,10 @@ protected:
   int value_;
 public:
   ControlVariable(){;}
+  string getName()
+  {
+    return name_;
+  }
   virtual void setValue(int) = 0;
   virtual int getValue() = 0;
   virtual void incrementVar() = 0;
