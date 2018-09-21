@@ -164,8 +164,8 @@ int MPI_Finalize(void){
 
       for(int i=0; i<stats_size; i++)
 	{
-	  outputfile << stats[i]->getName() << "=" << total_stats_avg[i] << endl;
-	  outputfile << stats[i]->getName() << "=" << total_stats_max[i] << endl;
+	  outputfile << stats[i]->getName() << "_avg=" << total_stats_avg[i] << endl;
+	  outputfile << stats[i]->getName() << "_max=" << total_stats_max[i] << endl;
 	}
       outputfile.close();
     }
