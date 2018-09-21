@@ -38,12 +38,13 @@ control_var_names = [
 ]
 
 def _read_performance_vars(raw_data):
-    line = raw_data.readline()
-    line.rstrip()
-    var_split = line[:-1].split(' ')
-    perf_vars = np.array(var_split)
-    perf_vars_floats = [float(x) for x in perf_vars]
-    return perf_vars_floats
+    perf_vars = {}
+    for entry in raw_data.split('\n'):
+        if '=' in entry:
+            name, value = entry.split('=')
+            if name in perf_var_names:
+                perf_vars[name] = float(value)
+    return perf_vars
 
 def _read_control_vars(raw_data):
     line = raw_data.readline()
