@@ -58,9 +58,9 @@ int MPI_Init_thread(int *argc, char ***argv, int required, int *provided)
       first_run = true;
       printf("First run on\n");
       AITuning_cleanRelativePerfVars();
-      AITuning_dumpControlVariablesOnFile();
+      AITuning_dumpControlVariablesOnFile(first_run);
     }
-  else
+  else if(my_id == 0)
     {
       first_run = false;
       AITuning_readControlVariablesFromFile();
@@ -164,8 +164,8 @@ int MPI_Finalize(void){
 
       for(int i=0; i<stats_size; i++)
 	{
-	  cout << total_stats_avg[i] << " " << total_stats_max[i] << endl;
-	  outputfile << total_stats_avg[i] << " " << total_stats_max[i] << " ";
+	  outputfile << stats[i]->getName() << "_avg=" << total_stats_avg[i] << endl;
+	  outputfile << stats[i]->getName() << "_max=" << total_stats_max[i] << endl;
 	}
       outputfile.close();
     }

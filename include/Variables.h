@@ -15,9 +15,12 @@ class ControlVariable
 {
 protected:
   string name_;
-  int value_;
 public:
   ControlVariable(){;}
+  string getName()
+  {
+    return name_;
+  }
   virtual void setValue(int) = 0;
   virtual int getValue() = 0;
   virtual void incrementVar() = 0;
@@ -71,9 +74,12 @@ public:
 
   void readOriginalValFromFile()
   {
+    string name_read,tmp;
     ifstream infile;
     infile.open(name_+"_orginal.txt");
-    infile >> original_val_;
+    if( std::getline( infile, name_read , '=') )
+      if( std::getline( infile, tmp ) )
+	original_val_ = stod(tmp);
     infile.close();
   }
 
@@ -81,15 +87,18 @@ public:
   {
     ofstream outfile;
     outfile.open(name_+"_orginal.txt");
-    outfile << original_val_;
+    outfile << name_ << "=" << original_val_;
     outfile.close();
   }
 
   void deleteOriginalValOnFile()
   {
     string path = name_+"_orginal.txt";
+    ifstream f(path.c_str());
+    if(f.good())
       if( remove( path.c_str() ) != 0 )
-      perror( "Error deleting file" );
+	perror( "Error deleting file" );
+    f.close();
   }
   
   void saveLog()
