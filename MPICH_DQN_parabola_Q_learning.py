@@ -32,6 +32,58 @@ model.compile(loss='mse', optimizer=adam, metrics=['accuracy'])
 
 static_control_vars = np.ones(n_control_vars)
 
+perf_var_names = [
+"unexpected_recvq_length_avg",
+"unexpected_recvq_length_max",
+"num_rpocs_avg",
+"num_procs_max",
+"total_time_avg",
+"total_time_max",
+"put_time_avg",
+"put_time_max",
+"get_time_avg",
+"get_time_max",
+"flush_time_avg",
+"flush_time_max",
+]
+
+control_var_names = [
+"MPIR_CVAR_ASYNC_PROGRESS",
+"MPIR_CVAR_CH3_ENABLE_HCOLL",
+"MPIR_CVAR_CH3_RMA_DELAY_ISSUING_FOR_PIGGYBACKING",
+"MPIR_CVAR_CH3_RMA_OP_PIGGYBACK_LOCK_DATA_SIZE",
+"MPIR_CVAR_POLLS_BEFORE_YIELD",
+]
+
+def _read_performance_vars(raw_data):
+    line = raw_data.readline()
+    line.rstrip()
+    var_split = line[:-1].split(' ')
+    perf_vars = np.array(var_split)
+    perf_vars_floats = [float(x) for x in perf_vars]
+    return perf_vars_floats
+
+def _read_control_vars(raw_data):
+    line = raw_data.readline()
+    line.rstrip()
+    var_split = line[:-1].split(' ')
+    ctrl_vars = np.array(var_split)
+    ctrl_vars_floats = [int(x) for x in ctrl_vars]
+    return ctrl_vars_floats
+
+def write_changes(changes):
+    file_object  = open('changes.txt', 'w')
+    for i in changes:
+        file_object.write(str(changes[i])+" ")
+
+def read_control_vars():
+    file_object  = open('control_variables.txt', 'r')
+    return _read_control_vars(file_object)
+
+def read_performance_vars():
+    file_object  = open('performance_variables.txt', 'r')
+    return _read_performance_vars(file_object)
+
 def simulate_execution(control_vars, performance_vars):
     global n_performance_vars
     global n_control_vars
@@ -139,56 +191,3 @@ for i in range(n_episodes):
         action_frequency[action] += 1
         
     print("total reward",total_reward)#,"action frequency",action_frequency)
-
-perf_var_names = [
-"unexpected_recvq_length_avg",
-"unexpected_recvq_length_max",
-"num_rpocs_avg",
-"num_procs_max",
-"total_time_avg",
-"total_time_max",
-"put_time_avg",
-"put_time_max",
-"get_time_avg",
-"get_time_max",
-"flush_time_avg",
-"flush_time_max",
-]
-
-control_var_names = [
-"MPIR_CVAR_ASYNC_PROGRESS",
-"MPIR_CVAR_CH3_ENABLE_HCOLL",
-"MPIR_CVAR_CH3_RMA_DELAY_ISSUING_FOR_PIGGYBACKING",
-"MPIR_CVAR_CH3_RMA_OP_PIGGYBACK_LOCK_DATA_SIZE",
-"MPIR_CVAR_POLLS_BEFORE_YIELD",
-]
-
-def read_performance_vars():
-    file_object  = open('performance_variables.txt', 'r')
-    return _read_performance_vars(file_object)
-
-def _read_performance_vars(raw_data):
-    line = raw_data.readline()
-    line.rstrip()
-    var_split = line[:-1].split(' ')
-    perf_vars = np.array(var_split)
-    perf_vars_floats = [float(x) for x in perf_vars]
-    return perf_vars_floats
-
-def read_control_vars():
-    file_object  = open('control_variables.txt', 'r')
-    return _read_control_vars(file_object)
-
-def _read_control_vars(raw_data):
-    line = raw_data.readline()
-    line.rstrip()
-    var_split = line[:-1].split(' ')
-    ctrl_vars = np.array(var_split)
-    ctrl_vars_floats = [int(x) for x in ctrl_vars]
-    return ctrl_vars_floats
-
-def write_changes(changes):
-    file_object  = open('changes.txt', 'w')
-    for i in changes:
-        file_object.write(str(changes[i])+" ")
-    
