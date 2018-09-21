@@ -58,12 +58,10 @@ def write_changes(changes):
         file_object.write(str(changes[i])+" ")
 
 def read_control_vars():
-    file_object  = open('control_variables.txt', 'r')
-    return _read_control_vars(file_object)
+    return _read_control_vars(open('control_variables.txt', 'r').read())
 
 def read_performance_vars():
-    file_object  = open('performance_variables.txt', 'r')
-    return _read_performance_vars(file_object)
+    return _read_performance_vars(open('performance_variables.txt', 'r').read())
 
 def simulate_execution(control_vars, performance_vars):
     global n_performance_vars
