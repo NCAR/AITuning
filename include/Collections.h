@@ -101,13 +101,14 @@ class CollectionControlVar
   void readCollectionFromFile()
   {
     ifstream infile;
-    infile.open("control_first_run.txt");
-    int val;
+    infile.open("control_variables.txt");
+    string name_read, tmp;
 
     for(int i=0; i<(signed int)controlVarsList_.size(); i++)
       {
-	infile >> val;
-	controlVarsList_[i]->setValue(val);
+	if( std::getline( infile, name_read , '=') )
+	  if( std::getline( infile, tmp) )
+	    controlVarsList_[i]->setValue(stoi(tmp));
       }
     
     infile.close();

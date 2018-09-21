@@ -60,7 +60,7 @@ int MPI_Init_thread(int *argc, char ***argv, int required, int *provided)
       AITuning_cleanRelativePerfVars();
       AITuning_dumpControlVariablesOnFile(first_run);
     }
-  else
+  else if(my_id == 0)
     {
       first_run = false;
       AITuning_readControlVariablesFromFile();

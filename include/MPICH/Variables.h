@@ -47,7 +47,6 @@ public:
 class MPICHBoolControlVariable : public ControlVariable
 {
 private:
-  string name_;
   int index_;
   int value_; //Read from MPI_T
   MPI_Datatype dt_;
