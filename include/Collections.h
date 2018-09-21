@@ -117,12 +117,16 @@ class CollectionControlVar
   void readAIChanges()
   {
     ifstream infile;
+    string tmp, name_read;
     infile.open("changes.txt");
-    int val;
+    int val = 0;
 
     for(int i=0; i<(signed int)controlVarsList_.size(); i++)
       {
-	infile >> val;
+	if( std::getline( infile, name_read , '=') )
+	  if( std::getline( infile, tmp ) )
+	    val = stoi(tmp);
+
 	if(val == -1)
 	  controlVarsList_[i]->decrementVar();
 	else if(val == 1)
