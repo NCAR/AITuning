@@ -30,6 +30,6 @@ MPIR_CVAR_CH3_RMA_OP_PIGGYBACK_LOCK_DATA_SIZE=65536
 MPIR_CVAR_POLLS_BEFORE_YIELD=1000
 """
 )
-    assert stuff[0] == 1.61988
-    assert stuff[-1] == 0
-    assert stuff[-2] == 12
+    assert stuff['MPIR_CVAR_ASYNC_PROGRESS'] == 0
+    assert stuff['MPIR_CVAR_CH3_RMA_DELAY_ISSUING_FOR_PIGGYBACKING'] == 0
+    assert stuff['MPIR_CVAR_POLLS_BEFORE_YIELD'] == 1000
