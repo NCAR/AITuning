@@ -37,22 +37,20 @@ control_var_names = [
 "MPIR_CVAR_POLLS_BEFORE_YIELD",
 ]
 
-def _read_performance_vars(raw_data):
-    perf_vars = {}
+def _read_some_vars(raw_data, my_list, kind):
+    my_vars = {}
     for entry in raw_data.split('\n'):
         if '=' in entry:
             name, value = entry.split('=')
-            if name in perf_var_names:
-                perf_vars[name] = float(value)
-    return perf_vars
+            if name in my_list:
+                my_vars[name] = kind(value)
+    return my_vars
+
+def _read_performance_vars(raw_data):
+    return _read_some_vars(raw_data, perf_var_names, float)
 
 def _read_control_vars(raw_data):
-    line = raw_data.readline()
-    line.rstrip()
-    var_split = line[:-1].split(' ')
-    ctrl_vars = np.array(var_split)
-    ctrl_vars_floats = [int(x) for x in ctrl_vars]
-    return ctrl_vars_floats
+    return _read_some_vars(raw_data, control_var_names, int)
 
 def write_changes(changes):
     file_object  = open('changes.txt', 'w')
