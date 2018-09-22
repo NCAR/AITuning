@@ -63,6 +63,14 @@ def read_control_vars():
 def read_performance_vars():
     return _read_performance_vars(open('performance_variables.txt', 'r').read())
 
+def read_counter():
+    counter = open("counter.txt", 'r').read()
+    return int(counter)
+
+def save_counter(counter):
+    fileout = open("counter.txt", 'w')
+    fileout.write(str(counter))
+    
 def simulate_execution(control_vars, performance_vars):
     global n_performance_vars
     global n_control_vars
