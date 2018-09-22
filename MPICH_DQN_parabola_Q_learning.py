@@ -130,7 +130,7 @@ def main():
        # load weights into new model
        model.load_weights("model.h5")
        print("Loaded model from disk")
-       
+       # Read replay and counter from disk
     else:
        model = Sequential()
        model.add(Dense(25, input_dim=n_performance_vars, activation='relu'))
@@ -148,15 +148,19 @@ def main():
     
     model.compile(loss='mse', optimizer=adam, metrics=['accuracy'])
 
-    static_control_vars = np.ones(n_control_vars)
+    performance_vars = read_performance_vars()
+    n_performance_vars = len(performance_vars)
+    control_vars = read_control_vars()
+    n_control_vars = len(control_vars)
+    #static_control_vars = np.ones(n_control_vars)
     
     epsilon = 0.1
     alpha = 0.5
     discount_factor = 1.0
     
-    control_vars = np.ones(n_control_vars)
-    performance_vars = np.ones(n_performance_vars)
-    action_frequency = np.zeros(n_actions)
+    # control_vars = np.ones(n_control_vars)
+    # performance_vars = np.ones(n_performance_vars)
+    # action_frequency = np.zeros(n_actions)
     
     for i in range(n_episodes):
         counter = counter + 1
