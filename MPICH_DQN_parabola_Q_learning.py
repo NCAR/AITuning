@@ -118,6 +118,10 @@ def get_Q_value_all_actions(X):
 
 def main():
 
+    counter = -1
+    replay_X = []
+    replay_Y = []
+
     if(os.path.isfile('model.json'):
        json_file = open('model.json', 'r')
        loaded_model_json = json_file.read()
@@ -126,7 +130,8 @@ def main():
        # load weights into new model
        model.load_weights("model.h5")
        print("Loaded model from disk")
-    else:    
+       
+    else:
        model = Sequential()
        model.add(Dense(25, input_dim=n_performance_vars, activation='relu'))
        model.add(Dense(50, kernel_initializer='random_normal',
@@ -149,14 +154,9 @@ def main():
     alpha = 0.5
     discount_factor = 1.0
     
-    Q = defaultdict(lambda: np.ones(n_actions))
-    
     control_vars = np.ones(n_control_vars)
     performance_vars = np.ones(n_performance_vars)
     action_frequency = np.zeros(n_actions)
-    counter = -1
-    replay_X = []
-    replay_Y = []
     
     for i in range(n_episodes):
         counter = counter + 1
