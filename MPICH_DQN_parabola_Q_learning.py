@@ -12,9 +12,6 @@ from keras import optimizers
 
 n_control_vars = 6
 n_performance_vars = 12
-n_steps = 1
-n_episodes = 1000
-n_actions = n_control_vars * 2 + 1
 
 perf_var_names = [
 "unexpected_recvq_length_avg",
@@ -153,7 +150,8 @@ def main():
     control_vars = read_control_vars()
     n_control_vars = len(control_vars)
     #static_control_vars = np.ones(n_control_vars)
-    
+    n_actions = n_control_vars * 2 + 1 #the +1 is for "do nothing" action
+
     epsilon = 0.1
     alpha = 0.5
     discount_factor = 1.0
@@ -162,50 +160,50 @@ def main():
     # performance_vars = np.ones(n_performance_vars)
     # action_frequency = np.zeros(n_actions)
     
-    for i in range(n_episodes):
-        counter = counter + 1
-        if(counter == 200):
-            lb = random.randint(0, int(len(replay_X)/4))
-            ub = random.randint(int(len(replay_X)/4), int(len(replay_X)/4)*3)
-            print(lb,ub)
-            model.fit(np.array(replay_X[lb:ub]),np.array(replay_Y[lb:ub]),verbose=0)
-            counter = -1
-        policy = make_epsilon_greedy_policy(Q,epsilon,n_actions)
-        state = np.floor(performance_vars)
-        total_reward = 0
-        for j in range(n_steps):
-            action_probs = policy(np.array([state]))
-            action = np.random.choice(np.arange(len(action_probs)), p=action_probs)
-            if(int(action/2) >= n_control_vars):
-                pass
-            elif(action%2 == 0):
-                control_vars[int(action/2)] = control_vars[int(action/2)] - 1
-            else:
-                control_vars[int(action/2)] = control_vars[int(action/2)] + 1
-            # new_perf_vars = simulate_execution(control_vars, performance_vars)
-            new_perf_vars = read_performance_vars()
-            reward = check_reward(performance_vars, new_perf_vars)
-            performance_vars[:] = new_perf_vars[:]
-            next_state = np.floor(new_perf_vars)
-            next_action = select_next_action(np.array([next_state]))
-            # Update policy
-            total_reward += reward
-            X = state
-            X = np.array([X])
-            Y = get_Q_value(X,action)
-            Y_next = get_Q_value(np.array([next_state]),next_action)
-            td_target = reward + discount_factor * float(Y_next)
-            td_delta = td_target - float(Y)
-            Y = np.array([float(Y) + alpha * td_delta])
-            Y_all = get_Q_value_all_actions(X)
-            Y_all[0][action] = Y
-            replay_X.extend(X)
-            replay_Y.extend(Y_all)
-            model.fit(X,Y_all,verbose=0)
-            state[:] = next_state[:]
-            action_frequency[action] += 1
-            
-        print("total reward",total_reward)#,"action frequency",action_frequency)
+    # for i in range(n_episodes):
+    counter = counter + 1
+    if(counter == 200):
+       lb = random.randint(0, int(len(replay_X)/4))
+       ub = random.randint(int(len(replay_X)/4), int(len(replay_X)/4)*3)
+       print(lb,ub)
+       model.fit(np.array(replay_X[lb:ub]),np.array(replay_Y[lb:ub]),verbose=0)
+       counter = -1
+    policy = make_epsilon_greedy_policy(Q,epsilon,n_actions)
+    state = np.floor(performance_vars)
+    total_reward = 0
+        # for j in range(n_steps):
+    action_probs = policy(np.array([state]))
+    action = np.random.choice(np.arange(len(action_probs)), p=action_probs)
+    if(int(action/2) >= n_control_vars):
+       pass
+    elif(action%2 == 0):
+       control_vars[int(action/2)] = control_vars[int(action/2)] - 1
+    else:
+       control_vars[int(action/2)] = control_vars[int(action/2)] + 1
+    # new_perf_vars = simulate_execution(control_vars, performance_vars)
+    new_perf_vars = read_performance_vars()
+    reward = check_reward(performance_vars, new_perf_vars)
+    performance_vars[:] = new_perf_vars[:]
+    next_state = np.floor(new_perf_vars)
+    next_action = select_next_action(np.array([next_state]))
+    # Update policy
+    total_reward += reward
+    X = state
+    X = np.array([X])
+    Y = get_Q_value(X,action)
+    Y_next = get_Q_value(np.array([next_state]),next_action)
+    td_target = reward + discount_factor * float(Y_next)
+    td_delta = td_target - float(Y)
+    Y = np.array([float(Y) + alpha * td_delta])
+    Y_all = get_Q_value_all_actions(X)
+    Y_all[0][action] = Y
+    replay_X.extend(X)
+    replay_Y.extend(Y_all)
+    model.fit(X,Y_all,verbose=0)
+    state[:] = next_state[:]
+    action_frequency[action] += 1
+        
+    print("total reward",total_reward)#,"action frequency",action_frequency)
 
     model_json = model.to_json()
     with open("model.json", "w") as json_file:
