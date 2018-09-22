@@ -8,10 +8,10 @@ from keras.layers import Conv1D
 from keras.layers import advanced_activations
 from keras import optimizers
 
-n_control_vars = 4
-n_performance_vars = 4
+n_control_vars = 6
+n_performance_vars = 12
 n_steps = 1
-n_episodes = 10000
+n_episodes = 1000
 n_actions = n_control_vars * 2 + 1
 
 perf_var_names = [
@@ -35,6 +35,7 @@ control_var_names = [
 "MPIR_CVAR_CH3_RMA_DELAY_ISSUING_FOR_PIGGYBACKING",
 "MPIR_CVAR_CH3_RMA_OP_PIGGYBACK_LOCK_DATA_SIZE",
 "MPIR_CVAR_POLLS_BEFORE_YIELD",
+"MPIR_CVAR_CH3_EAGER_MAX_MSG_SIZE",
 ]
 
 def _read_some_vars(raw_data, my_list, kind):

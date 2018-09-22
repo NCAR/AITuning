@@ -26,6 +26,8 @@ CollectionCreatorMPICH::CollectionCreatorMPICH()
   control_vars_->addControlVariable(tmp);
   tmp = new MPICHIntControlVariable("MPIR_CVAR_POLLS_BEFORE_YIELD", 10, &mpi_t_manager);
   control_vars_->addControlVariable(tmp);
+  tmp = new MPICHIntControlVariable("MPIR_CVAR_CH3_EAGER_MAX_MSG_SIZE", 64, &mpi_t_manager);
+  control_vars_->addControlVariable(tmp);
 
   /* PERFORMANCE VARIABLES */
 
