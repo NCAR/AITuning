@@ -1,7 +1,9 @@
 import numpy as np
+import os.path
 from collections import defaultdict
 from math import floor
 import random
+from keras.models import model_from_json
 from keras.models import Sequential
 from keras.layers import Dense
 from keras.layers import Conv1D
@@ -115,22 +117,32 @@ def get_Q_value_all_actions(X):
     return Y
 
 def main():
-    model = Sequential()
-    model.add(Dense(25, input_dim=n_performance_vars, activation='relu'))
-    model.add(Dense(50, kernel_initializer='random_normal',
-                    bias_initializer='zeros', activation='relu'))
-    model.add(Dense(100, kernel_initializer='random_normal',
-                    bias_initializer='zeros',activation='relu'))
-    model.add(Dense(100, kernel_initializer='random_normal',
-                    bias_initializer='zeros',activation='relu'))
-    model.add(Dense(n_actions, kernel_initializer='zeros',
-                    bias_initializer='zeros',activation='relu'))
-    model.add(Dense(n_actions, activation='linear'))
-    
+
+    if(os.path.isfile('model.json'):
+       json_file = open('model.json', 'r')
+       loaded_model_json = json_file.read()
+       json_file.close()
+       model = model_from_json(loaded_model_json)
+       # load weights into new model
+       model.load_weights("model.h5")
+       print("Loaded model from disk")
+    else:    
+       model = Sequential()
+       model.add(Dense(25, input_dim=n_performance_vars, activation='relu'))
+       model.add(Dense(50, kernel_initializer='random_normal',
+                       bias_initializer='zeros', activation='relu'))
+       model.add(Dense(100, kernel_initializer='random_normal',
+                       bias_initializer='zeros',activation='relu'))
+       model.add(Dense(100, kernel_initializer='random_normal',
+                       bias_initializer='zeros',activation='relu'))
+       model.add(Dense(n_actions, kernel_initializer='zeros',
+                       bias_initializer='zeros',activation='relu'))
+       model.add(Dense(n_actions, activation='linear'))
+       
     adam = optimizers.Adam(lr=0.02, beta_1=0.9, beta_2=0.999, epsilon=1E-8, decay=0.001, amsgrad=False)
     
     model.compile(loss='mse', optimizer=adam, metrics=['accuracy'])
-    
+
     static_control_vars = np.ones(n_control_vars)
     
     epsilon = 0.1
@@ -190,6 +202,13 @@ def main():
             action_frequency[action] += 1
             
         print("total reward",total_reward)#,"action frequency",action_frequency)
+
+    model_json = model.to_json()
+    with open("model.json", "w") as json_file:
+       json_file.write(model_json)
+    # serialize weights to HDF5
+    model.save_weights("model.h5")
+    print("Saved model to disk")
 
 if __name__ == '__main__':
     main()
