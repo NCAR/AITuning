@@ -202,7 +202,7 @@ def main():
     policy = make_epsilon_greedy_policy(model, epsilon, n_actions)
     np_performance_vars = fromDictToNp(performance_vars)
     print(np_performance_vars)
-    state = np_performance_vars#np.floor(np_performance_vars)
+    state = np_performance_vars
     total_reward = 0
     action_probs = policy(np.array([state]))
     action = np.random.choice(np.arange(len(action_probs)), p=action_probs)
@@ -215,7 +215,7 @@ def main():
     new_perf_vars = fromDictToNp(read_performance_vars())
     reward = check_reward(performance_vars, np_performance_vars, new_perf_vars)
     np_performance_vars[:] = new_perf_vars[:]
-    next_state = new_perf_vars#np.floor(new_perf_vars)
+    next_state = new_perf_vars
     next_action = select_next_action(model, np.array([next_state]))
     # Update policy
     total_reward += reward
