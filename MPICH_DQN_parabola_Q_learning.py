@@ -107,16 +107,16 @@ def make_epsilon_greedy_policy(model,epsilon,n_actions):
         return A
     return policy_fn
 
-def select_next_action(next_state):
+def select_next_action(model, next_state):
     Y = model.predict(next_state)
     best_action = np.argmax(Y)
     return best_action
 
-def get_Q_value(X,action):
+def get_Q_value(X,action,model):
     Y = model.predict(X)
     return Y[0][action]
 
-def get_Q_value_all_actions(X):
+def get_Q_value_all_actions(X,model):
     Y = model.predict(X)
     return Y
 
@@ -196,24 +196,24 @@ def main():
     reward = 10#check_reward(performance_vars, new_perf_vars)
     np_performance_vars[:] = new_perf_vars[:]
     next_state = np.floor(new_perf_vars)
-    next_action = select_next_action(np.array([next_state]))
+    next_action = select_next_action(model, np.array([next_state]))
     # Update policy
     total_reward += reward
     X = state
     X = np.array([X])
-    Y = get_Q_value(X,action)
-    Y_next = get_Q_value(np.array([next_state]),next_action)
+    Y = get_Q_value(X,action,model)
+    Y_next = get_Q_value(np.array([next_state]),next_action,model)
     td_target = reward + discount_factor * float(Y_next)
     td_delta = td_target - float(Y)
     Y = np.array([float(Y) + alpha * td_delta])
-    Y_all = get_Q_value_all_actions(X)
+    Y_all = get_Q_value_all_actions(X,model)
     Y_all[0][action] = Y
     replay_X.extend(X)
     replay_Y.extend(Y_all)
     #write_replay(replay_X, replay_Y)
     model.fit(X,Y_all,verbose=0)
     write_counter(counter)
-
+    write_changes(changes)
     model_json = model.to_json()
     with open("model.json", "w") as json_file:
         json_file.write(model_json)
