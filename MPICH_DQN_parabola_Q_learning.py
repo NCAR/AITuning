@@ -57,16 +57,30 @@ def write_changes(changes):
     for j in range(len(changes)):
         file_object.write(control_var_names[j]+"="+str(changes[j])+"\n")
 
-# def read_replay(X,Y):
-        
-def write_replay(X,Y):
-    file_object_X = open('replay_X.txt', 'w')
-    for i in range(len(X)):
-        file_object_X.write(str(X[i])+"\n")
+def read_replay(X,Y):
+    if(not os.path.isfile('replay_X.txt')):
+        return
+    X = np.loadtxt('replay_X.txt', dtype=float)
+    Y = np.loadtxt('replay_Y.txt', dtype=float)
+    # if(os.path.isfile('replay_X.txt')):
+    #     file_object_X = open('replay_X.txt', 'r')
+    # else:
+    #     return
+    # if(os.path.isfile('replay_Y.txt')):
+    #     file_object_Y = open('replay_Y.txt', 'r')
 
-    file_object_Y = open('replay_Y.txt', 'w')
-    for i in range(len(Y)):
-        file_object_Y.write(str(Y[i])+"\n")
+    # data_x = file_object_X.read()
+    # data_y = file_object_Y.read()
+
+    # for entry in data_x.split('\n'):
+    #     print(entry)
+    #     X.extend(entry)
+    # for entry in data_y.split('\n'):
+    #     Y.extend(entry)
+
+def write_replay(X,Y):
+    np.savetxt('replay_X.txt', X, fmt='%f')
+    np.savetxt('replay_Y.txt', Y, fmt='%f')
 
 def read_control_vars():
     return _read_control_vars(open('control_variables.txt', 'r').read())
@@ -77,13 +91,17 @@ def read_performance_vars():
 def read_old_performance_vars():
     return _read_performance_vars(open('old_performance_variables.txt', 'r').read())
 
-def read_counter():
-    counter = open("counter.txt", 'r').read()
-    return int(counter)
-
 def write_counter(counter):
     fileout = open("counter.txt", 'w')
     fileout.write(str(counter))
+
+def read_counter():
+    if(os.path.isfile("counter.txt")):
+        counter = open("counter.txt", 'r').read()
+    else:
+        counter = 0
+        write_counter(counter)
+    return int(counter)
 
 def check_reward(perf_var_list, np_performance_vars, new_perf_vars):
     reward = 0
@@ -165,6 +183,7 @@ def main():
         model.load_weights("model.h5")
         print("Loaded model from disk")
         # Read replay and counter from disk
+        read_replay(replay_X,replay_Y)
     else:
         model = Sequential()
         model.add(Dense(25, input_dim=n_performance_vars, activation='relu'))
@@ -186,17 +205,17 @@ def main():
     alpha = 0.5
     discount_factor = 1.0
 
-    counter = 0#read_counter()
+    counter = read_counter()
     counter = counter + 1
-    # if(counter == 200):
-    #    lb = random.randint(0, int(len(replay_X)/4))
-    #    ub = random.randint(int(len(replay_X)/4), int(len(replay_X)/4)*3)
-    #    print(lb,ub)
-    #    model.fit(np.array(replay_X[lb:ub]),np.array(replay_Y[lb:ub]),verbose=0)
-    #    counter = -1
+    if(counter == 200):
+       lb = random.randint(0, int(len(replay_X)/4))
+       ub = random.randint(int(len(replay_X)/4), int(len(replay_X)/4)*3)
+       print(lb,ub)
+       model.fit(np.array(replay_X[lb:ub]),np.array(replay_Y[lb:ub]),verbose=0)
+       counter = 0
     policy = make_epsilon_greedy_policy(model, epsilon, n_actions)
     np_performance_vars = fromDictToNp(performance_vars)
-    state = np.floor(np_performance_vars)
+    state = np_performance_vars#np.floor(np_performance_vars)
     total_reward = 0
     action_probs = policy(np.array([state]))
     action = np.random.choice(np.arange(len(action_probs)), p=action_probs)
@@ -206,11 +225,10 @@ def main():
         changes[int(action/2)] = -1
     else:
         changes[int(action/2)] = 1
-    # new_perf_vars = simulate_execution(control_vars, performance_vars)
     new_perf_vars = fromDictToNp(read_performance_vars())
     reward = check_reward(performance_vars, np_performance_vars, new_perf_vars)
     np_performance_vars[:] = new_perf_vars[:]
-    next_state = np.floor(new_perf_vars)
+    next_state = new_perf_vars#np.floor(new_perf_vars)
     next_action = select_next_action(model, np.array([next_state]))
     # Update policy
     total_reward += reward
@@ -225,7 +243,7 @@ def main():
     Y_all[0][action] = Y
     replay_X.extend(X)
     replay_Y.extend(Y_all)
-    #write_replay(replay_X, replay_Y)
+    write_replay(replay_X, replay_Y)
     model.fit(X,Y_all,verbose=0)
     write_counter(counter)
     write_changes(changes)
