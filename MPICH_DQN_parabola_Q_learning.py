@@ -16,7 +16,7 @@ n_performance_vars = 12
 perf_var_names = [
 "unexpected_recvq_length_avg",
 "unexpected_recvq_length_max",
-"num_rpocs_avg",
+"num_procs_avg",
 "num_procs_max",
 "total_time_avg",
 "total_time_max",
@@ -85,15 +85,31 @@ def write_counter(counter):
     fileout = open("counter.txt", 'w')
     fileout.write(str(counter))
 
-def check_reward(performance_vars, new_perf_vars):
+def check_reward(perf_var_list, np_performance_vars, new_perf_vars):
     reward = 0
     for i in range(n_performance_vars):
-        if(performance_vars[i] > new_perf_vars[i]):
-            reward = reward + 20
-        elif(performance_vars[i] < new_perf_vars[i]):
-            reward = reward - 50
-        if(performance_vars[i] == new_perf_vars[i]):
+        list_names = list(perf_var_list.keys())
+        if(list_names[i] == "total_time_avg"):
+            if(np_performance_vars[i] > new_perf_vars[i]):
+                reward = reward + 20
+            else:
+                reward = reward - 30
+        continue
+
+        if(list_names[i] == "total_time_max"):
+            if(np_performance_vars[i] > new_perf_vars[i]):
+                reward = reward + 5
+            else:
+                reward = reward - 3
+        continue
+
+        if(np_performance_vars[i] > new_perf_vars[i]):
+            reward = reward + 3
+        elif(np_performance_vars[i] < new_perf_vars[i]):
+            reward = reward - 2
+        if(np_performance_vars[i] == new_perf_vars[i]):
             reward = reward - 1
+    print(reward)
     return reward
 
 def make_epsilon_greedy_policy(model,epsilon,n_actions):
@@ -192,7 +208,7 @@ def main():
         changes[int(action/2)] = 1
     # new_perf_vars = simulate_execution(control_vars, performance_vars)
     new_perf_vars = fromDictToNp(read_performance_vars())
-    reward = 10#check_reward(performance_vars, new_perf_vars)
+    reward = check_reward(performance_vars, np_performance_vars, new_perf_vars)
     np_performance_vars[:] = new_perf_vars[:]
     next_state = np.floor(new_perf_vars)
     next_action = select_next_action(model, np.array([next_state]))
