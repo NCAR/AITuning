@@ -62,21 +62,6 @@ def read_replay(X,Y):
         return
     X = np.loadtxt('replay_X.txt', dtype=float)
     Y = np.loadtxt('replay_Y.txt', dtype=float)
-    # if(os.path.isfile('replay_X.txt')):
-    #     file_object_X = open('replay_X.txt', 'r')
-    # else:
-    #     return
-    # if(os.path.isfile('replay_Y.txt')):
-    #     file_object_Y = open('replay_Y.txt', 'r')
-
-    # data_x = file_object_X.read()
-    # data_y = file_object_Y.read()
-
-    # for entry in data_x.split('\n'):
-    #     print(entry)
-    #     X.extend(entry)
-    # for entry in data_y.split('\n'):
-    #     Y.extend(entry)
 
 def write_replay(X,Y):
     np.savetxt('replay_X.txt', X, fmt='%f')
@@ -108,18 +93,19 @@ def check_reward(perf_var_list, np_performance_vars, new_perf_vars):
     for i in range(n_performance_vars):
         list_names = list(perf_var_list.keys())
         if(list_names[i] == "total_time_avg"):
+            print(str(i)+" Prev "+ str(np_performance_vars[i])+ " new "+str(new_perf_vars[i]))
             if(np_performance_vars[i] > new_perf_vars[i]):
                 reward = reward + 20
+            elif (np_performance_vars[i] == new_perf_vars[i]):
+                pass
             else:
                 reward = reward - 30
-        continue
 
         if(list_names[i] == "total_time_max"):
             if(np_performance_vars[i] > new_perf_vars[i]):
                 reward = reward + 5
             else:
                 reward = reward - 3
-        continue
 
         if(np_performance_vars[i] > new_perf_vars[i]):
             reward = reward + 3
@@ -154,10 +140,10 @@ def get_Q_value_all_actions(X,model):
     return Y
 
 def fromDictToNp(dict):
-    alist = [int(v) for k,v in dict.items()]
+    alist = [float(v) for k,v in dict.items()]
     X = np.zeros(len(alist))
     for i in range(len(X)):
-        X[i] = int(alist[i])
+        X[i] = float(alist[i])
     return X
 
 def main():
@@ -215,6 +201,7 @@ def main():
        counter = 0
     policy = make_epsilon_greedy_policy(model, epsilon, n_actions)
     np_performance_vars = fromDictToNp(performance_vars)
+    print(np_performance_vars)
     state = np_performance_vars#np.floor(np_performance_vars)
     total_reward = 0
     action_probs = policy(np.array([state]))
