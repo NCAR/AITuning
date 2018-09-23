@@ -55,7 +55,7 @@ def _read_control_vars(raw_data):
 def write_changes(changes):
     file_object  = open('changes.txt', 'w')
     for j in range(len(changes)):
-        file_object.write(str(changes[j])+"\n")
+        file_object.write(control_var_names[j]+"="+str(changes[j])+"\n")
 
 # def read_replay(X,Y):
         
