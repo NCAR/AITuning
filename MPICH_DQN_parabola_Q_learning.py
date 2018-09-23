@@ -61,11 +61,11 @@ def write_changes(changes):
         
 def write_replay(X,Y):
     file_object_X = open('replay_X.txt', 'w')
-    for i in X:
+    for i in range(len(X)):
         file_object_X.write(str(X[i])+"\n")
 
     file_object_Y = open('replay_Y.txt', 'w')
-    for i in Y:
+    for i in range(len(Y)):
         file_object_Y.write(str(Y[i])+"\n")
 
 def read_control_vars():
