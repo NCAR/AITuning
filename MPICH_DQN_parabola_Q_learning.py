@@ -11,9 +11,6 @@ from keras.layers import Conv1D
 from keras.layers import advanced_activations
 from keras import optimizers
 
-n_control_vars = 6
-n_performance_vars = 12
-
 perf_var_names = [
 "unexpected_recvq_length_avg",
 "unexpected_recvq_length_max",
@@ -45,6 +42,8 @@ def _read_some_vars(raw_data, my_list, kind):
             name, value = entry.split('=')
             if name in my_list:
                 my_vars[name] = kind(value)
+            else:
+                print("Warning, ignoring unknown name:", name)
     return my_vars
 
 def _read_performance_vars(raw_data):
@@ -95,7 +94,7 @@ def read_counter():
 
 def check_reward(perf_var_list, np_performance_vars, new_perf_vars):
     reward = 0
-    for i in range(n_performance_vars):
+    for i in range(len(np_performance_vars)):
         list_names = list(perf_var_list.keys())
         if(list_names[i] == "total_time_avg"):
             print(str(i)+" Prev "+ str(np_performance_vars[i])+ " new "+str(new_perf_vars[i]))
