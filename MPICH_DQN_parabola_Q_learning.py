@@ -3,6 +3,7 @@ import os.path
 from collections import defaultdict
 from math import floor
 import random
+import pickle
 from keras.models import model_from_json
 from keras.models import Sequential
 from keras.layers import Dense
@@ -60,12 +61,16 @@ def write_changes(changes):
 def read_replay(X,Y):
     if(not os.path.isfile('replay_X.txt')):
         return
-    X = np.loadtxt('replay_X.txt', dtype=float)
-    Y = np.loadtxt('replay_Y.txt', dtype=float)
+    f_x = open('replay_X.txt', 'r')
+    f_y = open('replay_Y.txt', 'r')
+    X = pickle.load(f_x)
+    Y = pickle.load(f_y)
 
 def write_replay(X,Y):
-    np.savetxt('replay_X.txt', X, fmt='%f')
-    np.savetxt('replay_Y.txt', Y, fmt='%f')
+    f_x = open('replay_X.txt', 'w')
+    f_y = open('replay_Y.txt', 'w')
+    pickle.dump(X,f_x)
+    pickle.dump(Y,f_y)
 
 def read_control_vars():
     return _read_control_vars(open('control_variables.txt', 'r').read())
