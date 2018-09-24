@@ -99,17 +99,17 @@ def check_reward(perf_var_list, np_performance_vars, new_perf_vars):
         if(list_names[i] == "total_time_avg"):
             print(str(i)+" Prev "+ str(np_performance_vars[i])+ " new "+str(new_perf_vars[i]))
             if(np_performance_vars[i] > new_perf_vars[i]):
-                reward = reward + 20
+                reward = reward + 20*(abs(np_performance_vars[i] - new_perf_vars[i]))
             elif (np_performance_vars[i] == new_perf_vars[i]):
                 pass
             else:
-                reward = reward - 30
+                reward = reward - 30*(abs(np_performance_vars[i] - new_perf_vars[i]))
 
         if(list_names[i] == "total_time_max"):
             if(np_performance_vars[i] > new_perf_vars[i]):
-                reward = reward + 5
+                reward = reward + 5*(abs(np_performance_vars[i] - new_perf_vars[i]))
             else:
-                reward = reward - 3
+                reward = reward - 3*(abs(np_performance_vars[i] - new_perf_vars[i]))
 
         if(np_performance_vars[i] > new_perf_vars[i]):
             reward = reward + 3
