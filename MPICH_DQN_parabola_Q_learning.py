@@ -61,14 +61,14 @@ def write_changes(changes):
 def read_replay(X,Y):
     if(not os.path.isfile('replay_X.txt')):
         return
-    f_x = open('replay_X.txt', 'r')
-    f_y = open('replay_Y.txt', 'r')
+    f_x = open('replay_X.txt', 'rb')
+    f_y = open('replay_Y.txt', 'rb')
     X = pickle.load(f_x)
     Y = pickle.load(f_y)
 
 def write_replay(X,Y):
-    f_x = open('replay_X.txt', 'w')
-    f_y = open('replay_Y.txt', 'w')
+    f_x = open('replay_X.txt', 'wb')
+    f_y = open('replay_Y.txt', 'wb')
     pickle.dump(X,f_x)
     pickle.dump(Y,f_y)
 
