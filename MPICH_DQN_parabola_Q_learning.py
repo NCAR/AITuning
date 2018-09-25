@@ -202,7 +202,7 @@ def main():
 
     counter = read_counter()
     counter = counter + 1
-    if(counter == 5):
+    if(counter == 200):
        lb = random.randint(0, int(len(replay_X)/4))
        ub = random.randint(int(len(replay_X)/4), int(len(replay_X)/4)*3)
        print(lb,ub)
