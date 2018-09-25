@@ -57,19 +57,22 @@ def write_changes(changes):
     for j in range(len(changes)):
         file_object.write(control_var_names[j]+"="+str(changes[j])+"\n")
 
-def read_replay(X,Y):
+def read_replay():
     if(not os.path.isfile('replay_X.txt')):
         return
-    f_x = open('replay_X.txt', 'rb')
-    f_y = open('replay_Y.txt', 'rb')
-    X = pickle.load(f_x)
-    Y = pickle.load(f_y)
+    print ("reading file")
+    with open('replay_X.txt', 'rb') as f_x:
+        with open('replay_Y.txt', 'rb') as f_y:
+            X = pickle.load(f_x)
+            Y = pickle.load(f_y)
+            return X,Y
 
 def write_replay(X,Y):
-    f_x = open('replay_X.txt', 'wb')
-    f_y = open('replay_Y.txt', 'wb')
-    pickle.dump(X,f_x)
-    pickle.dump(Y,f_y)
+    print("Writing file")
+    with open('replay_X.txt', 'wb') as f_x:
+        with open('replay_Y.txt', 'wb') as f_y:
+            pickle.dump(X,f_x)
+            pickle.dump(Y,f_y)
 
 def read_control_vars():
     return _read_control_vars(open('control_variables.txt', 'r').read())
@@ -173,7 +176,7 @@ def main():
         model.load_weights("model.h5")
         print("Loaded model from disk")
         # Read replay and counter from disk
-        read_replay(replay_X,replay_Y)
+        replay_X, replay_Y = read_replay()
     else:
         model = Sequential()
         model.add(Dense(25, input_dim=n_performance_vars, activation='relu'))
