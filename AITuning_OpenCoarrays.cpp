@@ -24,14 +24,15 @@ int MPI_Init_thread(int *argc, char ***argv, int required, int *provided)
   int provided_t, err = -1;
   bool async_on = false;
   int *cv_list;
-  
+
+  AITuning_start("MPICH");
+  AITuning_setControlVariables();
+
   err = PMPI_Init_thread(argc, argv, required, provided);
 
   MPI_Comm_size(MPI_COMM_WORLD, &n_procs);
   MPI_Comm_rank(MPI_COMM_WORLD, &my_id);
   
-  AITuning_start("MPICH");
-  AITuning_setControlVariables();
   AITuning_setPerformanceVariables();
 
   UserDefinedPerformanceVar *total_time_v = new UserDefinedPerformanceVar((char*)"total_time",(char*)"total_time_log.txt");
@@ -53,7 +54,7 @@ int MPI_Init_thread(int *argc, char ***argv, int required, int *provided)
 
   const char* env_fr = std::getenv("AITUNING_FIRST_RUN");
   
-  if(env_fr[0]=='1' && my_id == 0)
+  if(env_fr && env_fr[0]=='1' && my_id == 0)
     {
       first_run = true;
       printf("First run on\n");
