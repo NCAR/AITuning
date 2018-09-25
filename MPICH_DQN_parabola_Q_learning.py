@@ -59,7 +59,9 @@ def write_changes(changes):
 
 def read_replay():
     if(not os.path.isfile('replay_X.txt')):
-        return
+        X = []
+        Y = []
+        return X,Y
     print ("reading file")
     with open('replay_X.txt', 'rb') as f_x:
         with open('replay_Y.txt', 'rb') as f_y:
@@ -200,7 +202,7 @@ def main():
 
     counter = read_counter()
     counter = counter + 1
-    if(counter == 200):
+    if(counter == 5):
        lb = random.randint(0, int(len(replay_X)/4))
        ub = random.randint(int(len(replay_X)/4), int(len(replay_X)/4)*3)
        print(lb,ub)
