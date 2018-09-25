@@ -30,14 +30,7 @@ int MPI_Init_thread(int *argc, char ***argv, int required, int *provided)
   
   const char* env_fr = std::getenv("AITUNING_FIRST_RUN");
   
-  if(env_fr && env_fr[0]=='1' && my_id == 0)
-    {
-      first_run = true;
-      printf("First run on\n");
-      AITuning_cleanRelativePerfVars();
-      AITuning_dumpControlVariablesOnFile(first_run);
-    }
-  else if(my_id == 0)
+  if(env_fr && env_fr[0]=='0' && my_id == 0)
     {
       first_run = false;
       AITuning_readControlVariablesFromFile();
@@ -67,6 +60,14 @@ int MPI_Init_thread(int *argc, char ***argv, int required, int *provided)
   UserDefinedPerformanceVar *flush_time_v = new UserDefinedPerformanceVar((char*)"flush_time",(char*)"flush_time_log.txt",0.001);
   AITuning_addUserDefinedPerformanceVar(flush_time_v);
   flush_time_p = new SingleProbe((char*)"flush_time_probe", flush_time_v);
+
+  if(env_fr && env_fr[0]=='1' && my_id == 0)
+    {
+      first_run = true;
+      printf("First run on\n");
+      AITuning_cleanRelativePerfVars();
+      AITuning_dumpControlVariablesOnFile(first_run);
+    }
   
   start_time = MPI_Wtime();
   
