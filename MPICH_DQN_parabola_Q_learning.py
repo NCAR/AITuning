@@ -104,7 +104,7 @@ def check_reward(perf_var_list, np_performance_vars, new_perf_vars):
         if(list_names[i] == "total_time_avg"):
             print(str(i)+" Prev "+ str(np_performance_vars[i])+ " new "+str(new_perf_vars[i]))
             if(np_performance_vars[i] > new_perf_vars[i]):
-                reward = reward + 20*(abs(np_performance_vars[i] - new_perf_vars[i]))
+                reward = reward + 20*(np_performance_vars[i] - new_perf_vars[i])
             elif (np_performance_vars[i] == new_perf_vars[i]):
                 pass
             else:
@@ -214,7 +214,15 @@ def main():
     state = np_performance_vars
     total_reward = 0
     action_probs = policy(np.array([state]))
-    action = np.random.choice(np.arange(len(action_probs)), p=action_probs)
+    valid = False
+ 
+    while(valid == False):
+        action = np.random.choice(np.arange(len(action_probs)), p=action_probs)
+        if((action%2 == 0 and list(control_vars.values())[int(action/2)] == 0)
+           or (action%2 == 1 and list(control_vars.values())[int(action/2)] == 1)):
+            valid = False
+        else:
+            valid = True
     if(int(action/2) >= n_control_vars):
         pass
     elif(action%2 == 0):
