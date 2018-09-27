@@ -38,7 +38,7 @@ CollectionControlVar *CollectionCreatorMPICH::createCollectionControlVar()
   control_vars_->addControlVariable(tmp);
   tmp = new MPICHBoolControlVariable("MPIR_CVAR_CH3_RMA_DELAY_ISSUING_FOR_PIGGYBACKING", &mpi_t_manager);
   control_vars_->addControlVariable(tmp);
-  tmp = new MPICHIntControlVariable("MPIR_CVAR_CH3_RMA_OP_PIGGYBACK_LOCK_DATA_SIZE", 10, &mpi_t_manager);
+  tmp = new MPICHIntControlVariable("MPIR_CVAR_CH3_RMA_OP_PIGGYBACK_LOCK_DATA_SIZE", 64, &mpi_t_manager);
   control_vars_->addControlVariable(tmp);
   tmp = new MPICHIntControlVariable("MPIR_CVAR_POLLS_BEFORE_YIELD", 10, &mpi_t_manager);
   control_vars_->addControlVariable(tmp);
