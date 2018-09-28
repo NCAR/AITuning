@@ -102,24 +102,47 @@ def check_reward(perf_var_list, np_performance_vars, new_perf_vars):
     for i in range(len(np_performance_vars)):
         list_names = list(perf_var_list.keys())
         if(list_names[i] == "total_time_avg"):
-            print(str(i)+" Prev "+ str(np_performance_vars[i])+ " new "+str(new_perf_vars[i]))
-            if(np_performance_vars[i] > new_perf_vars[i]):
-                reward = reward + 20*(np_performance_vars[i] - new_perf_vars[i])
+            print("Total_time_Avg Prev "+ str(np_performance_vars[i])+ " new "+str(new_perf_vars[i]))
+            if(np_performance_vars[i] > 0 and new_perf_vars[i] < 0):
+                reward = reward - 30*(abs(np_performance_vars[i]) + abs(new_perf_vars[i]))
+            elif(np_performance_vars[i] < 0 and new_perf_vars[i] > 0):
+                reward = reward + 40*(abs(np_performance_vars[i]) + abs(new_perf_vars[i]))
+            elif(np_performance_vars[i] < 0 and new_perf_vars[i] < 0):
+                if(np_performance_vars[i] > new_perf_vars[i]):
+                    reward = reward - 20*(abs(np_performance_vars[i] - abs(new_perf_vars[i])))
+                else:
+                    reward = reward + 20*(abs(new_perf_vars[i] - abs(np_performance_vars[i])))
+            elif(np_performance_vars[i] > 0 and new_perf_vars[i] > 0):
+                if(np_performance_vars[i] > new_perf_vars[i]):
+                    reward = reward - 20*(np_performance_vars[i] - new_perf_vars[i])
+                else:
+                    reward = reward + 20*(new_perf_vars[i] - np_performance_vars[i])
             elif (np_performance_vars[i] == new_perf_vars[i]):
                 pass
-            else:
-                reward = reward - 30*(abs(np_performance_vars[i] - new_perf_vars[i]))
+        elif(list_names[i] == "total_time_max"):
+            print("Total_time_max Prev "+ str(np_performance_vars[i])+ " new "+str(new_perf_vars[i]))
+            if(np_performance_vars[i] > 0 and new_perf_vars[i] < 0):
+                reward = reward - 13*(abs(np_performance_vars[i]) + abs(new_perf_vars[i]))
+            elif(np_performance_vars[i] < 0 and new_perf_vars[i] > 0):
+                reward = reward + 14*(abs(np_performance_vars[i]) + abs(new_perf_vars[i]))
+            elif(np_performance_vars[i] < 0 and new_perf_vars[i] < 0):
+                if(np_performance_vars[i] > new_perf_vars[i]):
+                    reward = reward - 8*(abs(np_performance_vars[i] - abs(new_perf_vars[i])))
+                else:
+                    reward = reward + 8*(abs(new_perf_vars[i] - abs(np_performance_vars[i])))
+            elif(np_performance_vars[i] > 0 and new_perf_vars[i] > 0):
+                if(np_performance_vars[i] > new_perf_vars[i]):
+                    reward = reward - 5*(np_performance_vars[i] - new_perf_vars[i])
+                else:
+                    reward = reward + 5*(new_perf_vars[i] - np_performance_vars[i])
+            elif (np_performance_vars[i] == new_perf_vars[i]):
+                pass
+        else:
+            if(np_performance_vars[i] < new_perf_vars[i]):
+                reward = reward + 3
+            elif(np_performance_vars[i] > new_perf_vars[i]):
+                reward = reward - 2
 
-        if(list_names[i] == "total_time_max"):
-            if(np_performance_vars[i] > new_perf_vars[i]):
-                reward = reward + 5*(abs(np_performance_vars[i] - new_perf_vars[i]))
-            else:
-                reward = reward - 3*(abs(np_performance_vars[i] - new_perf_vars[i]))
-
-        if(np_performance_vars[i] > new_perf_vars[i]):
-            reward = reward + 3
-        elif(np_performance_vars[i] < new_perf_vars[i]):
-            reward = reward - 2
         if(np_performance_vars[i] == new_perf_vars[i]):
             reward = reward - 1
     print(reward)
