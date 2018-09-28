@@ -13,6 +13,8 @@ MVAPICHPerformanceVariable::MVAPICHPerformanceVariable(string name, int var_clas
   var_class_ = var_class;
   p_session_ = mpi_t_manager_->getPerformanceSession();
   p_handle_ = mpi_t_manager_->getPerformanceHandle(name_, var_class_, &index_, p_session_);
+  log_ = new PerformanceVariableLog(name_+".log");
+  mpi_t_manager_->getPvarDatatype(index_,&dt_);
 }
 
 void MVAPICHPerformanceVariable::logPerformanceValue()
