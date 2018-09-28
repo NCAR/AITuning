@@ -90,6 +90,24 @@ int MPI_Put(const void *origin_addr, int origin_count, MPI_Datatype
   return ret;
 }
 
+int MPI_Get(void *origin_addr, int origin_count, MPI_Datatype
+            origin_datatype, int target_rank, MPI_Aint target_disp,
+            int target_count, MPI_Datatype target_datatype, MPI_Win win)
+{
+  int ret;
+  double start_time_get, end_time_get;
+
+  start_time_get = MPI_Wtime();
+  ret = PMPI_Get(origin_addr, origin_count, origin_datatype, target_rank,
+		 target_disp, target_count, target_datatype, win);
+  end_time_get = MPI_Wtime();
+
+  get_time_p->registerValue(end_time_get - start_time_get);
+  AITuning_readPerformanceVariables();
+  
+  return ret;
+}
+
 int MPI_Win_flush(int rank, MPI_Win win)
 {
   int ret;
