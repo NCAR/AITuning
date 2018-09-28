@@ -19,7 +19,7 @@ CollectionPerformanceVar *CollectionCreatorMVAPICH::createCollectionPerformanceV
   PerformanceVariable *tmp_p = new MVAPICHPerformanceVariable("mv2_smp_read_progress_poll_success", MPI_T_PVAR_CLASS_COUNTER, &mpi_t_manager);
   performance_vars_->addPerformanceVariable(tmp_p);
 
-  PerformanceVariable *tmp_p = new MVAPICHPerformanceVariable("mv2_smp_write_progress_poll_success", MPI_T_PVAR_CLASS_COUNTER, &mpi_t_manager);
+  tmp_p = new MVAPICHPerformanceVariable("mv2_smp_write_progress_poll_success", MPI_T_PVAR_CLASS_COUNTER, &mpi_t_manager);
   performance_vars_->addPerformanceVariable(tmp_p);
   
   int np;
