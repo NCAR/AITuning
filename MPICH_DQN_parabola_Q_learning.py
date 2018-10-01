@@ -228,12 +228,12 @@ def main():
     if(counter == 200):
        lb = random.randint(0, int(len(replay_X)/4))
        ub = random.randint(int(len(replay_X)/4), int(len(replay_X)/4)*3)
-       print(lb,ub)
+       print("Replay: ",lb,ub,"length: ",len(replay_X))
        model.fit(np.array(replay_X[lb:ub]),np.array(replay_Y[lb:ub]),verbose=0)
        counter = 0
     policy = make_epsilon_greedy_policy(model, epsilon, n_actions)
     np_performance_vars = fromDictToNp(performance_vars)
-    print(np_performance_vars)
+    #print(np_performance_vars)
     state = np_performance_vars
     total_reward = 0
     action_probs = policy(np.array([state]))
@@ -241,7 +241,7 @@ def main():
  
     while(valid == False):
         action = np.random.choice(np.arange(len(action_probs)), p=action_probs)
-        if((action%2 == 0 and list(control_vars.values())[int(action/2)] == 0)
+        if((int(action/2) >= n_control_vars) or (action%2 == 0 and list(control_vars.values())[int(action/2)] == 0)
            or (action%2 == 1 and list(control_vars.values())[int(action/2)] == 1)):
             valid = False
         else:
