@@ -12,7 +12,6 @@ using namespace std;
 class MVAPICHPerformanceVariable : public PerformanceVariable
 {
 private:
-  string name_;
   int index_;
   int var_class_;
   MPI_Datatype dt_;
@@ -29,7 +28,6 @@ public:
 class MVAPICHIntControlVariable : public ControlVariable
 {
 private:
-  string name_;
   int index_;
   int value_; //Read from MPI_T
   int increment_;
@@ -49,7 +47,6 @@ public:
 class MVAPICHBoolControlVariable : public ControlVariable
 {
 private:
-  string name_;
   int index_;
   int value_; //Read from MPI_T
   MPI_Datatype dt_;

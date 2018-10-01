@@ -154,11 +154,8 @@ int MPI_Finalize(void){
 
   double *total_stats_avg, *total_stats_max;
 
-  if(my_id == 0)
-    {
-      total_stats_avg = (double *)calloc(stats_size,sizeof(double));
-      total_stats_max = (double *)calloc(stats_size,sizeof(double));
-    }
+  total_stats_avg = (double *)calloc(stats_size,sizeof(double));
+  total_stats_max = (double *)calloc(stats_size,sizeof(double));
   
   for(int i=0; i < stats.size(); i++)
     {
