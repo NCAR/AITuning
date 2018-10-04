@@ -76,22 +76,19 @@ def main():
                 if line.startswith("Relative accuracy (min):"):
                     parse(line, min_acc)
 
-    x = [i for i in range(10)]
-    y1_l = [i/2 for i in x]
-    y1_h = [i+10 for i in y1_l]
-    y2_l = [i**2 for i in x]
-    y2_h = [i+10 for i in y2_l]
-    y3_l = [1 - i for i in x]
-    y3_h = [i+10 for i in y3_l]
-    y4_l = [10 - 5 * i for i in x]
-    y4_h = [i+10 for i in y4_l]
-
     fig, ax = plt.subplots()
+#    print(episodes, len(episodes))
+#    print(min_acc[0], len(min_acc[0]))
+    print(max_acc[0], len(max_acc[0]))
+    print(max_acc[1], len(max_acc[1]))
+    print(max_acc[2], len(max_acc[2]))
+    print(max_acc[3], len(max_acc[3]))
+    print(target)
 
-    fillplot(ax, 'red',   x, y1_l, y1_h)
-    fillplot(ax, 'green', x, y2_l, y2_h)
-    fillplot(ax, 'blue',  x, y3_l, y3_h)
-    fillplot(ax, 'gray',  x, y4_l, y4_h)
+    fillplot(ax, 'red',   episodes, min_acc[0], max_acc[0])
+    fillplot(ax, 'green', episodes, min_acc[1], max_acc[1])
+    fillplot(ax, 'blue',  episodes, min_acc[2], max_acc[2])
+    fillplot(ax, 'gray',  episodes, min_acc[3], max_acc[3])
 
     plt.savefig("foo.png")
 
