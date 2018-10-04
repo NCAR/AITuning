@@ -124,15 +124,16 @@ def run(args):
             state[:] = next_state[:]
             action_frequency[action] += 1
 
-        if (i % args.print_frequency == 0):
+        if (i % args.print_frequency == 0) and not (args.quiet):
         #print("action frequency",action_frequency)
             print("Episode: ", i, "/", args.episodes, "-- Total reward: ",total_reward, "-- Control variables",control_vars)
-    print("Episode: ", args.episodes, "/", args.episodes, "-- Total reward: ",total_reward, "-- Control variables",control_vars)
     abs_error = target - control_vars
     rel_error = (target - control_vars)/control_vars
 
-    print("Errors: ", abs_error)
-    print("Errors: ", 100*rel_error, "%")
+    if not (args.quiet):
+        print("Episode: ", args.episodes, "/", args.episodes, "-- Total reward: ",total_reward, "-- Control variables",control_vars)
+        print("Errors: ", abs_error)
+        print("Errors: ", 100*rel_error, "%")
     return abs_error, rel_error
 
 if __name__ == "__main__":
@@ -141,6 +142,7 @@ if __name__ == "__main__":
     parser.add_argument('-e', '--episodes', type=int, default=5000, help='Number of EPISODES to run')
     parser.add_argument('-n', '--noise_level', type=int, default=5, help='Noise in the performance measurements (%%)')
     parser.add_argument('-l', '--loop', type=int, default=1, help='Repeat LOOP times and average results')
+    parser.add_argument('-q', '--quiet', action='store_true', help='Do not print details on the episodes')
     args = parser.parse_args()
 
     from keras.models import Sequential
