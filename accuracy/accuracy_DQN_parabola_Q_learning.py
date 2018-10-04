@@ -9,27 +9,23 @@ from keras.layers import advanced_activations
 from keras import optimizers
 
 def simulate_execution(control_vars, performance_vars):
-#    global n_performance_vars
-#    global n_control_vars
-#    global static_control_vars
-    
     randomness = np.random.rand(1)
-    new_perf_vars = np.zeros(n_performance_vars)
+    new_perf_vars = np.zeros(len(performance_vars))
     new_perf_vars[:] = performance_vars[:]
 
-    new_perf_vars[n_performance_vars - 1] = (control_vars[n_control_vars - 1] - 200.) ** 2 + randomness
+    new_perf_vars[0] = (control_vars[0] - 200.) ** 2 + randomness
     randomness = np.random.rand(1)
-    new_perf_vars[n_performance_vars - 2] = (control_vars[n_control_vars - 2] - 20.) ** 2 + randomness
+    new_perf_vars[1] = (control_vars[1] - 20.) ** 2 + randomness
     randomness = np.random.rand(1)
-    new_perf_vars[n_performance_vars - 3] = (control_vars[n_control_vars - 3] - 15.) ** 2 + randomness
+    new_perf_vars[2] = (control_vars[2] - 15.) ** 2 + randomness
     randomness = np.random.rand(1)
-    new_perf_vars[n_performance_vars - 4] = (control_vars[n_control_vars - 4] - 60.) ** 2 + randomness
+    new_perf_vars[3] = (control_vars[3] - 60.) ** 2 + randomness
     
     return np.floor(new_perf_vars)
 
 def check_reward(performance_vars, new_perf_vars):
     reward = 0
-    for i in range(n_performance_vars):
+    for i in range(len(performance_vars)):
         if(performance_vars[i] > new_perf_vars[i]):
             reward = reward + 20
         elif(performance_vars[i] < new_perf_vars[i]):
@@ -38,7 +34,7 @@ def check_reward(performance_vars, new_perf_vars):
             reward = reward - 1
     return reward
 
-def make_epsilon_greedy_policy(Q,epsilon,n_actions):
+def make_epsilon_greedy_policy(Q,epsilon,n_actions,model):
     def policy_fn(state):
         A = np.ones(n_actions, dtype=float) * epsilon / (n_actions)
         Y = model.predict(state)
@@ -47,16 +43,16 @@ def make_epsilon_greedy_policy(Q,epsilon,n_actions):
         return A
     return policy_fn
 
-def select_next_action(next_state):
+def select_next_action(next_state, model):
     Y = model.predict(next_state)
     best_action = np.argmax(Y)
     return best_action
 
-def get_Q_value(X,action):
+def get_Q_value(X,action, model):
     Y = model.predict(X)
     return Y[0][action]
 
-def get_Q_value_all_actions(X):
+def get_Q_value_all_actions(X, model):
     Y = model.predict(X)
     return Y
 
@@ -83,8 +79,6 @@ def main():
 
     model.compile(loss='mse', optimizer=adam, metrics=['accuracy'])
 
-    static_control_vars = np.ones(n_control_vars)
-
     epsilon = 0.1
     alpha = 0.5
     discount_factor = 1.0
@@ -106,7 +100,7 @@ def main():
             print(lb,ub)
             model.fit(np.array(replay_X[lb:ub]),np.array(replay_Y[lb:ub]),verbose=0)
             counter = -1
-        policy = make_epsilon_greedy_policy(Q,epsilon,n_actions)
+        policy = make_epsilon_greedy_policy(Q,epsilon,n_actions, model)
         state = np.floor(performance_vars)
         total_reward = 0
         for j in range(n_steps):
@@ -122,17 +116,17 @@ def main():
             reward = check_reward(performance_vars, new_perf_vars)
             performance_vars[:] = new_perf_vars[:]
             next_state = np.floor(new_perf_vars)
-            next_action = select_next_action(np.array([next_state]))
+            next_action = select_next_action(np.array([next_state]), model)
             # Update policy
             total_reward += reward
             X = state
             X = np.array([X])
-            Y = get_Q_value(X,action)
-            Y_next = get_Q_value(np.array([next_state]),next_action)
+            Y = get_Q_value(X,action, model)
+            Y_next = get_Q_value(np.array([next_state]),next_action, model)
             td_target = reward + discount_factor * float(Y_next)
             td_delta = td_target - float(Y)
             Y = np.array([float(Y) + alpha * td_delta])
-            Y_all = get_Q_value_all_actions(X)
+            Y_all = get_Q_value_all_actions(X, model)
             Y_all[0][action] = Y
             replay_X.extend(X)
             replay_Y.extend(Y_all)
@@ -140,5 +134,8 @@ def main():
             state[:] = next_state[:]
             action_frequency[action] += 1
 
-        print("total reward",total_reward)#,"action frequency",action_frequency)
-        print("control variables",control_vars[n_control_vars-1],control_vars[n_control_vars-2],control_vars[n_control_vars-3],control_vars[n_control_vars-4])
+        #print("action frequency",action_frequency)
+        print("total reward",total_reward, "control variables",control_vars)
+
+if __name__ == "__main__":
+    main()
