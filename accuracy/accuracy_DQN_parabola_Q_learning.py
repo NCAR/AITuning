@@ -46,7 +46,7 @@ def get_Q_value_all_actions(X, model):
     Y = model.predict(X)
     return Y
 
-def main(args):
+def run(args):
     n_control_vars = 4
     n_performance_vars = 4
     target = [200, 20, 15, 60]
@@ -128,14 +128,19 @@ def main(args):
         #print("action frequency",action_frequency)
             print("Episode: ", i, "/", args.episodes, "-- Total reward: ",total_reward, "-- Control variables",control_vars)
     print("Episode: ", args.episodes, "/", args.episodes, "-- Total reward: ",total_reward, "-- Control variables",control_vars)
-    print("Errors: ", target - control_vars)
-    print("Errors: ", 100*(target - control_vars)/control_vars, "%")
+    abs_error = target - control_vars
+    rel_error = (target - control_vars)/control_vars
+
+    print("Errors: ", abs_error)
+    print("Errors: ", 100*rel_error, "%")
+    return abs_error, rel_error
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('-p', '--print-frequency', type=int, default=500, help='Print summary every PRINT_FREQUENCY episodes')
     parser.add_argument('-e', '--episodes', type=int, default=5000, help='Number of EPISODES to run')
     parser.add_argument('-n', '--noise_level', type=int, default=5, help='Noise in the performance measurements (%%)')
+    parser.add_argument('-l', '--loop', type=int, default=1, help='Repeat LOOP times and average results')
     args = parser.parse_args()
 
     from keras.models import Sequential
@@ -144,4 +149,15 @@ if __name__ == "__main__":
     from keras.layers import advanced_activations
     from keras import optimizers
 
-    main(args)
+    abs_errors = []
+    rel_errors = []
+    loop = args.loop
+    del args.loop
+    for i in range(loop):
+        print("Running iteration", i+1, "of", loop)
+        abs_err, rel_err = run(args)
+        abs_errors.append(abs_err)
+        rel_errors.append(rel_err)
+    print("absolute errors: ", abs_errors)
+    print("---")
+    print("relative errors: ", rel_errors)
