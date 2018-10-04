@@ -3,19 +3,14 @@ from collections import defaultdict
 from math import floor
 import random, argparse
 
-def simulate_execution(control_vars, performance_vars):
-    randomness = np.random.rand(1)
+def simulate_execution(control_vars, performance_vars, target):
     new_perf_vars = np.zeros(len(performance_vars))
     new_perf_vars[:] = performance_vars[:]
 
-    new_perf_vars[0] = (control_vars[0] - 200.) ** 2 + randomness
-    randomness = np.random.rand(1)
-    new_perf_vars[1] = (control_vars[1] - 20.) ** 2 + randomness
-    randomness = np.random.rand(1)
-    new_perf_vars[2] = (control_vars[2] - 15.) ** 2 + randomness
-    randomness = np.random.rand(1)
-    new_perf_vars[3] = (control_vars[3] - 60.) ** 2 + randomness
-    
+    for i in range(len(performance_vars)):
+        randomness = np.random.rand(1)
+        new_perf_vars[i] = (control_vars[i] - target[i]) ** 2 + randomness
+
     return np.floor(new_perf_vars)
 
 def check_reward(performance_vars, new_perf_vars):
@@ -65,6 +60,7 @@ def main():
 
     n_control_vars = 4
     n_performance_vars = 4
+    target = [200, 20, 15, 60]
     n_steps = 1
     n_actions = n_control_vars * 2 + 1
 
@@ -117,7 +113,7 @@ def main():
                 control_vars[int(action/2)] = control_vars[int(action/2)] - 1
             else:
                 control_vars[int(action/2)] = control_vars[int(action/2)] + 1
-            new_perf_vars = simulate_execution(control_vars, performance_vars)
+            new_perf_vars = simulate_execution(control_vars, performance_vars, target)
             reward = check_reward(performance_vars, new_perf_vars)
             performance_vars[:] = new_perf_vars[:]
             next_state = np.floor(new_perf_vars)
@@ -143,6 +139,8 @@ def main():
         #print("action frequency",action_frequency)
             print("Episode: ", i, "/", args.episodes, "-- Total reward: ",total_reward, "-- Control variables",control_vars)
     print("Episode: ", args.episodes, "/", args.episodes, "-- Total reward: ",total_reward, "-- Control variables",control_vars)
+    print("Errors: ", target - control_vars)
+    print("Errors: ", 100*(target - control_vars)/control_vars, "%")
 
 if __name__ == "__main__":
     main()
