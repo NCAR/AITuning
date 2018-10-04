@@ -49,7 +49,8 @@ def get_Q_value_all_actions(X, model):
 def run(args):
     n_control_vars = 4
     n_performance_vars = 4
-    target = [200, 20, 15, 60]
+    target = [200, 20, -3, 1500]
+    print("Target values:", target)
     n_steps = 1
     n_actions = n_control_vars * 2 + 1
 
@@ -154,6 +155,7 @@ if __name__ == "__main__":
     parser.add_argument('-l', '--loop', type=int, default=1, help='Repeat LOOP times and average results')
     parser.add_argument('-q', '--quiet', action='store_true', help='Do not print details on the episodes')
     args = parser.parse_args()
+    print("Configuration", args)
 
     from keras.models import Sequential
     from keras.layers import Dense
