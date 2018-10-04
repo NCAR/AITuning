@@ -128,13 +128,23 @@ def run(args):
         #print("action frequency",action_frequency)
             print("Episode: ", i, "/", args.episodes, "-- Total reward: ",total_reward, "-- Control variables",control_vars)
     abs_error = target - control_vars
-    rel_error = (target - control_vars)/control_vars
+    rel_error = 1 - control_vars / target
 
     if not (args.quiet):
         print("Episode: ", args.episodes, "/", args.episodes, "-- Total reward: ",total_reward, "-- Control variables",control_vars)
-        print("Errors: ", abs_error)
-        print("Errors: ", 100*rel_error, "%")
+        print("Accuracies: ", abs_error)
+        print("Accuracies: ", 100*rel_error, "%")
     return abs_error, rel_error
+
+def print_errors(err, prefix):
+    print(prefix, err)
+    print("---")
+    print(prefix, "(median): ", np.median(err, axis=0))
+    print(prefix, "(mean):   ", np.mean  (err, axis=0))
+    print(prefix, "(stddev): ", np.std   (err, axis=0))
+    print(prefix, "(max):    ", np.amax  (err, axis=0))
+    print(prefix, "(min):    ", np.amin  (err, axis=0))
+    print("---")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -160,6 +170,5 @@ if __name__ == "__main__":
         abs_err, rel_err = run(args)
         abs_errors.append(abs_err)
         rel_errors.append(rel_err)
-    print("absolute errors: ", abs_errors)
-    print("---")
-    print("relative errors: ", rel_errors)
+    print_errors(abs_errors, "Absolute accuracy")
+    print_errors(rel_errors, "Relative accuracy")
