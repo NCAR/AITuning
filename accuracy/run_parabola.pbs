@@ -1,0 +1,15 @@
+#!/bin/bash
+#PBS -N parabole
+#PBS -A SCSG0001
+#PBS -l walltime=01:00:00
+#PBS -q regular
+#PBS -j oe
+#PBS -l select=1:ncpus=1:mpiprocs=1
+
+### Set TMPDIR as recommended
+setenv TMPDIR /glade/scratch/$USER/temp
+mkdir -p $TMPDIR
+
+### Run the executable
+source /glade/work/ddvento/AITuning_environment/bin/activate
+python accuracy_DQN_parabola_Q_learning.py -e 200 -n 20 -l 5 -q > parabole.200epochs.20err.5loops.txt
