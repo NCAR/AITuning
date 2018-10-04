@@ -1,7 +1,7 @@
 import numpy as np
 from collections import defaultdict
 from math import floor
-import random
+import random, argparse
 from keras.models import Sequential
 from keras.layers import Dense
 from keras.layers import Conv1D
@@ -57,10 +57,14 @@ def get_Q_value_all_actions(X, model):
     return Y
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-p', '--print-frequency', type=int, default=500, help='Print summary every PRINT_FREQUENCY episodes')
+    parser.add_argument('-e', '--episodes', type=int, default=5000, help='Number of EPISODES to run')
+    args = parser.parse_args()
+
     n_control_vars = 4
     n_performance_vars = 4
     n_steps = 1
-    n_episodes = 5000
     n_actions = n_control_vars * 2 + 1
 
     model = Sequential()
@@ -92,12 +96,12 @@ def main():
     replay_X = []
     replay_Y = []
 
-    for i in range(n_episodes):
+    for i in range(args.episodes):
         counter = counter + 1
         if(counter == 200):
             lb = random.randint(0, int(len(replay_X)/4))
             ub = random.randint(int(len(replay_X)/4), int(len(replay_X)/4)*3)
-            print(lb,ub)
+            #print(lb,ub)
             model.fit(np.array(replay_X[lb:ub]),np.array(replay_Y[lb:ub]),verbose=0)
             counter = -1
         policy = make_epsilon_greedy_policy(Q,epsilon,n_actions, model)
@@ -134,8 +138,9 @@ def main():
             state[:] = next_state[:]
             action_frequency[action] += 1
 
+        if (i % args.print_frequency == 0):
         #print("action frequency",action_frequency)
-        print("total reward",total_reward, "control variables",control_vars)
+            print("Episode: ", i, "/", args.episodes, "-- Total reward: ",total_reward, "-- Control variables",control_vars)
 
 if __name__ == "__main__":
     main()
