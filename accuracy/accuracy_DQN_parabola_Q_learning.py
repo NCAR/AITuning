@@ -2,11 +2,6 @@ import numpy as np
 from collections import defaultdict
 from math import floor
 import random, argparse
-from keras.models import Sequential
-from keras.layers import Dense
-from keras.layers import Conv1D
-from keras.layers import advanced_activations
-from keras import optimizers
 
 def simulate_execution(control_vars, performance_vars):
     randomness = np.random.rand(1)
@@ -61,6 +56,12 @@ def main():
     parser.add_argument('-p', '--print-frequency', type=int, default=500, help='Print summary every PRINT_FREQUENCY episodes')
     parser.add_argument('-e', '--episodes', type=int, default=5000, help='Number of EPISODES to run')
     args = parser.parse_args()
+
+    from keras.models import Sequential
+    from keras.layers import Dense
+    from keras.layers import Conv1D
+    from keras.layers import advanced_activations
+    from keras import optimizers
 
     n_control_vars = 4
     n_performance_vars = 4
@@ -141,6 +142,7 @@ def main():
         if (i % args.print_frequency == 0):
         #print("action frequency",action_frequency)
             print("Episode: ", i, "/", args.episodes, "-- Total reward: ",total_reward, "-- Control variables",control_vars)
+    print("Episode: ", args.episodes, "/", args.episodes, "-- Total reward: ",total_reward, "-- Control variables",control_vars)
 
 if __name__ == "__main__":
     main()
