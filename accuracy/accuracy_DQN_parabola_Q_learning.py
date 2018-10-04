@@ -3,12 +3,12 @@ from collections import defaultdict
 from math import floor
 import random, argparse
 
-def simulate_execution(control_vars, performance_vars, target):
+def simulate_execution(control_vars, performance_vars, target, noise_level):
     new_perf_vars = np.zeros(len(performance_vars))
     new_perf_vars[:] = performance_vars[:]
 
     for i in range(len(performance_vars)):
-        randomness = np.random.rand(1)
+        randomness = np.random.rand(1) * target[i] * noise_level / 100
         new_perf_vars[i] = (control_vars[i] - target[i]) ** 2 + randomness
 
     return np.floor(new_perf_vars)
@@ -50,6 +50,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-p', '--print-frequency', type=int, default=500, help='Print summary every PRINT_FREQUENCY episodes')
     parser.add_argument('-e', '--episodes', type=int, default=5000, help='Number of EPISODES to run')
+    parser.add_argument('-n', '--noise_level', type=int, default=5, help='Noise in the performance measurements (%%)')
     args = parser.parse_args()
 
     from keras.models import Sequential
@@ -113,7 +114,7 @@ def main():
                 control_vars[int(action/2)] = control_vars[int(action/2)] - 1
             else:
                 control_vars[int(action/2)] = control_vars[int(action/2)] + 1
-            new_perf_vars = simulate_execution(control_vars, performance_vars, target)
+            new_perf_vars = simulate_execution(control_vars, performance_vars, target, args.noise_level)
             reward = check_reward(performance_vars, new_perf_vars)
             performance_vars[:] = new_perf_vars[:]
             next_state = np.floor(new_perf_vars)
