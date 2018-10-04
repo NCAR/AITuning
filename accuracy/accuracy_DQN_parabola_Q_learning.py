@@ -46,19 +46,7 @@ def get_Q_value_all_actions(X, model):
     Y = model.predict(X)
     return Y
 
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-p', '--print-frequency', type=int, default=500, help='Print summary every PRINT_FREQUENCY episodes')
-    parser.add_argument('-e', '--episodes', type=int, default=5000, help='Number of EPISODES to run')
-    parser.add_argument('-n', '--noise_level', type=int, default=5, help='Noise in the performance measurements (%%)')
-    args = parser.parse_args()
-
-    from keras.models import Sequential
-    from keras.layers import Dense
-    from keras.layers import Conv1D
-    from keras.layers import advanced_activations
-    from keras import optimizers
-
+def main(args):
     n_control_vars = 4
     n_performance_vars = 4
     target = [200, 20, 15, 60]
@@ -144,4 +132,16 @@ def main():
     print("Errors: ", 100*(target - control_vars)/control_vars, "%")
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-p', '--print-frequency', type=int, default=500, help='Print summary every PRINT_FREQUENCY episodes')
+    parser.add_argument('-e', '--episodes', type=int, default=5000, help='Number of EPISODES to run')
+    parser.add_argument('-n', '--noise_level', type=int, default=5, help='Noise in the performance measurements (%%)')
+    args = parser.parse_args()
+
+    from keras.models import Sequential
+    from keras.layers import Dense
+    from keras.layers import Conv1D
+    from keras.layers import advanced_activations
+    from keras import optimizers
+
+    main(args)
