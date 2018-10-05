@@ -49,7 +49,7 @@ def get_Q_value_all_actions(X, model):
 def run(args):
     n_control_vars = 4
     n_performance_vars = 4
-    target = [200, 20, -3, 1500]
+    target = [200, 20, -3, -150]
     print("Target values:", target)
     n_steps = 1
     n_actions = n_control_vars * 2 + 1
