@@ -2,12 +2,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 import argparse, re
 
-def fillplot(ax, color, x, low, high):
+def fillplot(ax, color, x, low, high, legend):
     # fill between the two curves
     ax.fill_between(x, low, high, facecolor=color, alpha=0.3)
 
     # Outline of the filled region
-    ax.plot(x, low, c=color, alpha=0.8)
+    ax.plot(x, low, c=color, alpha=0.8, label=legend)
     ax.plot(x, high, c=color, alpha=0.8)
 
 def check_consistency(old, new, filename, old_episode):
@@ -27,7 +27,7 @@ def check_consistency(old, new, filename, old_episode):
     return new
 
 def parse(line, var):
-    data = line.split("[")[1].replace("]", "")
+    data = line.split("[")[1].replace("]", "").replace(",", " ")
     for i, datum in enumerate(data.split()):
         var[i].append(float(datum))
 
@@ -48,6 +48,7 @@ def main():
     conf = None
     target = None
     episodes = []
+    target_values = [[], [], [], []]
     median = [[], [], [], []]
     mean = [[], [], [], []]
     max_acc = [[], [], [], []]
@@ -65,6 +66,7 @@ def main():
                     conf = check_consistency(conf, line, fn, episodes[use_episode])
                 if line.startswith("Target values: "):
                     target = check_consistency(target, line, fn, episodes[-1])
+                    parse(line, target_values)
                 if line.startswith("Relative accuracy (median):"):
                     parse(line, median)
                 if line.startswith("Relative accuracy (mean):"):
@@ -77,19 +79,25 @@ def main():
                     parse(line, min_acc)
 
     fig, ax = plt.subplots()
-#    print(episodes, len(episodes))
-#    print(min_acc[0], len(min_acc[0]))
-    print(max_acc[0], len(max_acc[0]))
-    print(max_acc[1], len(max_acc[1]))
-    print(max_acc[2], len(max_acc[2]))
-    print(max_acc[3], len(max_acc[3]))
-    print(target)
+    print(target.strip())
+    print(conf.strip())
+    for i in range(len(target_values)):
+        print("Max accuracty for target   ", set(target_values[i]), max_acc[i]) # , len(max_acc[0]))
+        print("Min accuracty for target   ", set(target_values[i]), min_acc[i]) # , len(max_acc[0]))
+        print("Median accuracty for target", set(target_values[i]), median[i]) # , len(max_acc[0]))
+        print("Mean accuracty for target  ", set(target_values[i]), mean[i]) # , len(max_acc[0]))
+        print("Stddev accuracty for target", set(target_values[i]), stddev[i]) # , len(max_acc[0]))
+    print("episodes", episodes) #, len(episodes))
 
-    fillplot(ax, 'red',   episodes, min_acc[0], max_acc[0])
-    fillplot(ax, 'green', episodes, min_acc[1], max_acc[1])
-    fillplot(ax, 'blue',  episodes, min_acc[2], max_acc[2])
-    fillplot(ax, 'gray',  episodes, min_acc[3], max_acc[3])
-
+    colors = ['red', 'green', 'blue', 'gray']
+    for i in range(len(target_values)):
+        fillplot(ax, colors[i],   episodes, min_acc[i], max_acc[i], set(target_values[i]))
+        ax.plot(episodes, median[i], c=colors[i], alpha=0.8)
+    ax.legend()
+    plt.ylim(-1, 1)
+    plt.xlabel('episodes')
+    plt.ylabel('relative accuracy (1=100% error)')
+    plt.title(re.search("noise_level=[0-9]*", conf).group(0) + '%')
     plt.savefig("foo.png")
 
 if __name__ == '__main__':
