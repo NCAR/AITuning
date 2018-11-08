@@ -93,11 +93,11 @@ def main():
     for i in range(len(target_values)):
         fillplot(ax, colors[i],   episodes, min_acc[i], max_acc[i], set(target_values[i]))
         ax.plot(episodes, median[i], c=colors[i], alpha=0.8)
-    ax.legend()
-    plt.ylim(-1, 1)
+    ax.legend(title="target parameter")
+    plt.ylim(-2, 2)
     plt.xlabel('episodes')
     plt.ylabel('relative accuracy (1=100% error)')
-    plt.title(re.search("noise_level=[0-9]*", conf).group(0) + '%')
+    plt.title("Accuracy with " + re.search("noise_level=[0-9]*", conf).group(0) + '%')
     plt.savefig("foo.png")
 
 if __name__ == '__main__':
